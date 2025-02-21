@@ -1,51 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Timetable</title>
-    <link rel="stylesheet" href="./timetable.css">
+    <link rel="stylesheet" href="timetable.css">
 </head>
-
 <body>
-    <header>
-        <nav>
-            <div class="nav-left">
-                <h1>FocusFlow</h1>
-            </div>
-            <div class="nav-right">
-                <ul>
-                    <li><a href="./index.html">Dashboard</a></li>
-                    <li><a href="./timetable.html">Schedule</a></li>
-                    <li><a href="tasks.html">Tasks</a></li>
-                    <li><a href="./notes.html">Notes</a></li>
-                    <li><a href="./attendance.html">Attendance</a></li>
-                    <li><a href="settings.html">Settings</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
     <div class="container">
         <h1>Class Timetable</h1>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="openAddClassModal()">➕ Add Class</button>
+            <button onclick="openRemoveClassModal()">➖ Remove Class</button>
+        </div>
 
         <!-- Date Selection -->
         <div class="date-selector">
-            <select id="monthSelect" class="dropdown">
-                <option value="0">January</option>
-                <option value="1">February</option>
-                <option value="2">March</option>
-                <option value="3">April</option>
-                <option value="4">May</option>
-                <option value="5">June</option>
-                <option value="6">July</option>
-                <option value="7">August</option>
-                <option value="8" selected>September</option>
-                <option value="9">October</option>
-                <option value="10">November</option>
-                <option value="11">December</option>
-            </select>
-
+            <select id="monthSelect" class="dropdown"></select>
             <select id="yearSelect" class="dropdown"></select>
         </div>
 
@@ -58,9 +31,52 @@
             <div class="legend-item physics">Physics</div>
             <div class="legend-item chem">Chemistry</div>
         </div>
+
+        <!-- Add Class Modal -->
+        <div id="addClassModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('addClassModal')">&times;</span>
+                <h2>Add Class</h2>
+                <select id="classType">
+                    <option value="math">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chem">Chemistry</option>
+                </select>
+                <input type="time" id="classTime" required>
+                <div>
+                    <label>
+                        <input type="radio" name="addFrequency" value="once" checked>
+                        One Time
+                    </label>
+                    <label>
+                        <input type="radio" name="addFrequency" value="weekly">
+                        Every Week
+                    </label>
+                </div>
+                <button onclick="addClass()">Add Class</button>
+            </div>
+        </div>
+
+        <!-- Remove Class Modal -->
+        <div id="removeClassModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('removeClassModal')">&times;</span>
+                <h2>Remove Class</h2>
+                <div>
+                    <label>
+                        <input type="radio" name="removeFrequency" value="once" checked>
+                        This Instance Only
+                    </label>
+                    <label>
+                        <input type="radio" name="removeFrequency" value="weekly">
+                        All Future Instances
+                    </label>
+                </div>
+                <button onclick="removeClass()">Remove Class</button>
+            </div>
+        </div>
     </div>
 
     <script src="timetable.js"></script>
 </body>
-
 </html>
