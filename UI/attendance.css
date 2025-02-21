@@ -1,127 +1,141 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 2rem;
     background-color: #E4D1BD;
     color: #5a4d41;
 }
 
 h1 {
     color: #86C392;
-    margin-bottom: 30px;
-    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.course-card {
+.card {
     background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1rem auto;
+    max-width: 800px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.date-selector {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+select {
+    padding: 0.8rem;
     border-radius: 8px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 2px solid #86C392;
+    background: white;
+    font-size: 1rem;
+}
+
+.progress-section {
+    margin: 2rem 0;
 }
 
 .progress-container {
     display: flex;
     align-items: center;
-    margin: 15px 0;
-    gap: 10px;
+    gap: 1rem;
 }
 
 .progress-bar {
     flex-grow: 1;
-    height: 20px;
-    background-color: #eee;
-    border-radius: 10px;
+    height: 24px;
+    background: #eee;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    background-color: #86C392;
+    background: #86C392;
     transition: width 0.3s ease;
 }
 
-button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-}
-
-button:hover {
-    opacity: 0.9;
-}
-
-.calendar-toggle {
-    background-color: #86C392;
-    color: white;
-    margin: 10px 0;
-    width: 100%;
-    text-align: left;
-    padding: 12px;
-}
-
-.calendar {
-    display: none;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    margin-top: 15px;
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.calendar.active {
-    display: grid;
-}
-
-.calendar-day {
-    padding: 8px;
-    text-align: center;
-    border-radius: 4px;
-    font-size: 0.9em;
-    min-height: 35px;
+.progress-controls {
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.attended {
-    background-color: #86C392;
-    color: white;
-}
-
-.missed {
-    background-color: #D19494;
-    color: white;
-}
-
-.future {
-    background-color: #f0f0f0;
-}
-
-.inactive {
-    background-color: #E4D1BD;
-    opacity: 0.7;
+    gap: 0.5rem;
 }
 
 .control-btn {
     width: 40px;
-    padding: 5px;
-    font-size: 1.2em;
-    background-color: #86C392;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    background: #86C392;
     color: white;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.control-btn:hover {
+    opacity: 0.9;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 1rem;
+}
+
+.calendar-day {
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    transform: scale(1.05);
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.calendar-day.attended {
+    background: #86C392;
+    color: white;
+}
+
+.calendar-day.missed {
+    background: #D19494;
+    color: white;
+}
+
+.calendar-day.future {
+    background: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.calendar-day.inactive {
+    background: #E4D1BD;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 #registration {
     text-align: center;
-    padding: 30px;
+    padding: 3rem;
 }
 
 #registration button {
-    background-color: #86C392;
-    padding: 12px 24px;
-    font-size: 1.1em;
+    background: #86C392;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
 }
