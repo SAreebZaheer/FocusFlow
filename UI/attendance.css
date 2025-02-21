@@ -1,0 +1,127 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 20px;
+    background-color: #E4D1BD;
+    color: #5a4d41;
+}
+
+h1 {
+    color: #86C392;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.course-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #86C392;
+    transition: width 0.3s ease;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.calendar-toggle {
+    background-color: #86C392;
+    color: white;
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+}
+
+.calendar {
+    display: none;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-top: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.calendar.active {
+    display: grid;
+}
+
+.calendar-day {
+    padding: 8px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 0.9em;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attended {
+    background-color: #86C392;
+    color: white;
+}
+
+.missed {
+    background-color: #D19494;
+    color: white;
+}
+
+.future {
+    background-color: #f0f0f0;
+}
+
+.inactive {
+    background-color: #E4D1BD;
+    opacity: 0.7;
+}
+
+.control-btn {
+    width: 40px;
+    padding: 5px;
+    font-size: 1.2em;
+    background-color: #86C392;
+    color: white;
+}
+
+#registration {
+    text-align: center;
+    padding: 30px;
+}
+
+#registration button {
+    background-color: #86C392;
+    padding: 12px 24px;
+    font-size: 1.1em;
+}
