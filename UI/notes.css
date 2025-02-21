@@ -1,0 +1,163 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #86C392;
+    background-color: white;
+    overflow-x: hidden;
+}
+
+header {
+    background-color: #86C392;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.nav-left {
+    /* Styles for the left-aligned items */
+}
+
+.nav-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-right li {
+    margin: 0 15px;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-right a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+    display: block;
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+nav li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav a {
+    color: white; /* Links in header should be white */
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    min-height: calc(100vh - 120px);
+}
+
+#courses {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.course-button {
+    display: inline-block;
+    padding: 20px;
+    background-color: #f0f0f0;
+    color: #86C392;
+    text-decoration: none;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.course-button:hover {
+    background-color: #e0e0e0;
+}
+
+.plus-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #86C392;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 2em;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.upload-options {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent; 
+}
+
+.upload-options button {
+    display: block; /* Make each button a block element */
+    width: auto;
+    padding: 10px 15px; /* Increased padding */
+    margin: 5px 0; /* Vertical margin only */
+    border: none;
+    background-color: #f8f8f8; /* Light gray background for buttons */
+    cursor: pointer;
+    color: #86C392;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    border-radius: 20px; /* More rounded corners */
+    transition: background-color 0.3s;
+    text-align: center; /* Align text to the left */
+}
+
+.upload-options button:hover {
+    background-color: #e0e0e0;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
