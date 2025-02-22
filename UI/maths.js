@@ -82,7 +82,7 @@ uploads.addEventListener('click', (event) => {
 });
 
 document.body.addEventListener('click', (event) => {
-    if (!plusButton.contains(event.target) && !uploads.contains(event.target)) {
-        uploads.style.display = 'none';
+    if (!plusButton.contains(event.target) && !uploadOptions.contains(event.target)) {
+        uploadOptions.style.display = 'none';
     }
 });
