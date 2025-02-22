@@ -2,7 +2,7 @@ from google import genai
 from google.genai import types
 from datetime import datetime
 
-client = genai.Client(api_key="")
+client = genai.Client(api_key="AIzaSyCPKQuDiibeF6Hud2ft3MyYOGMhMsuAOfQ")
 
 import PIL.Image
 
