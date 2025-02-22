@@ -12,7 +12,7 @@ def getText(filename):
     response = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=["What is written in the image?Your response should  only contain the contents of the image and nothing else.", image])
-    text_name = "./notes/" + str(datetime.now()) + ".txt"
+    text_name = "./UI/notes/" + str(datetime.now()) + ".txt"
     f = open(text_name, "a")
     f.write(response.text)
     f.close()

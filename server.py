@@ -8,20 +8,17 @@ import traceback  # For detailed error information
 my_host_name = 'localhost'
 my_port = 8000
 my_html_folder_path = './UI/'
-
 my_home_page_file_path = 'index.html'
 
-
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
-
     def _set_headers(self, content_type):
         self.send_response(200)
         self.send_header('Content-Type', content_type)
-        self.send_header('Access-Control-Allow-Origin', '*')  # For development.  Use your domain in production!
+        self.send_header('Access-Control-Allow-Origin', '*')  # For development. Use your domain in production!
         self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
-        
+
     def getPath(self):
         if self.path == '/':
             content_path = path.join(my_html_folder_path, my_home_page_file_path)
@@ -126,15 +123,13 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         else:
             self.send_error(404, "Not Found")
-            
+
     def do_OPTIONS(self):  # Handle preflight OPTIONS request
         self._set_headers('application/json') # Use _set_headers to set CORS headers
         self.send_response(200) # Respond with 200 OK
         return # Important: Stop processing after OPTIONS request
 
-
-my_handler = MyHttpRequestHandler
-
-with socketserver.TCPServer(("192.168.0.108", my_port), my_handler) as httpd:  # Bind to all interfaces
-    print(f"Http Server Serving at http://192.168.0.108:{my_port}")
+# Create the server
+with socketserver.TCPServer(("192.168.0.108", my_port), MyHttpRequestHandler) as httpd:
+    print(f"Server running at http://192.168.0.108:{my_port}")
     httpd.serve_forever()
