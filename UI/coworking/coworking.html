@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Working Space</title>
+    <link rel="stylesheet" href="coworking.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Co-Working Space</h1>
+        </header>
+        <div class="main-content">
+            <div class="video-section">
+                <h2>Your Video</h2>
+                <div class="video-container">
+                    <video id="userVideo" autoplay muted></video>
+                    <div class="controls">
+                        <i id="toggleCamera" class="fas fa-video-slash"></i>
+                        <i id="toggleMic" class="fas fa-microphone-slash"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="user-list">
+                <h2>Online Users</h2>
+                <div id="userGrid"></div>
+            </div>
+        </div>
+    </div>
+    <script src="coworking.js"></script>
+</body>
+
+</html>
