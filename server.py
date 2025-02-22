@@ -81,16 +81,25 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 for field in form.list:
                     if field.filename:
                         filename = field.filename
-                        filename = os.path.basename(filename)  # Sanitize filename!!!
-                        filepath = os.path.join(my_html_folder_path, 'uploads', filename)
+                        filename = os.path.basename(filename)
+                        
+                        # Determine the correct subdirectory based on file type
+                        if field.content_type.startswith('image/'):
+                            subdirectory = 'notes_images'
+                        elif field.content_type.startswith('audio/'):
+                            subdirectory = 'recordings' # or another appropriate name
+                        else:  # Default to 'uploads' for other file types
+                            subdirectory = 'uploads'
 
-                        os.makedirs(os.path.join(my_html_folder_path, 'uploads'), exist_ok=True)
+                        filepath = os.path.join(my_html_folder_path, subdirectory, filename)
+
+                        os.makedirs(os.path.join(my_html_folder_path, subdirectory), exist_ok=True)  # Create subdir
 
                         with open(filepath, 'wb') as f:
                             f.write(field.file.read())
 
                         self._set_headers('application/json')
-                        self.wfile.write(bytes(f'{{"message": "File uploaded successfully", "filename": "{filename}"}}', 'utf-8'))
+                        self.wfile.write(bytes(f'{{"message": "File uploaded successfully", "filename": "{filename}", "subdirectory": "{subdirectory}"}}', 'utf-8')) # include subdirectory in response
 
                         print(f"File '{filename}' uploaded successfully to '{filepath}'")
                         return
