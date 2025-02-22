@@ -74,6 +74,6 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 my_handler = MyHttpRequestHandler
 
-with socketserver.TCPServer(("172.21.21.189", my_port), my_handler) as httpd:
-    print(f"Http Server Serving at http://172.21.21.189:{my_port}")
+with socketserver.TCPServer(("192.168.0.108", my_port), my_handler) as httpd:
+    print(f"Http Server Serving at http://192.168.0.108:{my_port}")
     httpd.serve_forever()
