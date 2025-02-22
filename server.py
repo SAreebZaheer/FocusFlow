@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 import os
+from ai import getText, summarise  # Import functions from ai.py
 
 app = Flask(__name__)
 
@@ -33,7 +34,24 @@ def upload_file():
     if file and file.filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
-        return jsonify({"message": "File uploaded successfully", "file_path": file_path}), 200
+
+        # Call getText() function to extract text from the image
+        try:
+            text_file_path = getText(file.filename)
+            print(f"Text extracted and saved to: {text_file_path}")
+
+            # Call summarise() function to generate a summary
+            summary_file_path = summarise(text_file_path)
+            print(f"Summary generated and saved to: {summary_file_path}")
+
+            return jsonify({
+                "message": "File uploaded and processed successfully",
+                "file_path": file_path,
+                "text_file_path": text_file_path,
+                "summary_file_path": summary_file_path
+            }), 200
+        except Exception as e:
+            return jsonify({"error": f"Error processing file: {str(e)}"}), 500
     else:
         return jsonify({"error": "Invalid file type. Only images are allowed."}), 400
 
