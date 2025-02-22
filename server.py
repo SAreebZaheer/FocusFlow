@@ -7,7 +7,7 @@ app = Flask(__name__)
 # File to store courses
 COURSES_FILE = "courses.txt"
 
-# Ensure the courses file exists
+# Ensure the files exist
 if not os.path.exists(COURSES_FILE):
     with open(COURSES_FILE, "w") as f:
         f.write("")
@@ -77,41 +77,62 @@ def upload_file():
 @app.route('/add-course', methods=['POST'])
 def add_course():
     data = request.get_json()
-    course = data.get("course")
+    course = data.get("course")  # This should be a string in the format "name,totalClasses,minAttendance,absents"
 
     if not course:
-        return jsonify({"error": "Course name is required"}), 400
+        return jsonify({"error": "Course data is required"}), 400
 
     with open(COURSES_FILE, "a") as f:
-        f.write(f"{course}\n")
+        f.write(f"{course}\n")  # Append the course string to the file
 
     return jsonify({"message": "Course added successfully"}), 200
-
-# Remove a course
-@app.route('/remove-course', methods=['POST'])
-def remove_course():
-    data = request.get_json()
-    course_to_remove = data.get("course")
-
-    if not course_to_remove:
-        return jsonify({"error": "Course name is required"}), 400
-
-    with open(COURSES_FILE, "r") as f:
-        courses = f.readlines()
-
-    with open(COURSES_FILE, "w") as f:
-        for course in courses:
-            if course.strip() != course_to_remove:
-                f.write(course)
-
-    return jsonify({"message": "Course removed successfully"}), 200
 
 # Get all courses
 @app.route('/get-courses', methods=['GET'])
 def get_courses():
+    courses = []
     with open(COURSES_FILE, "r") as f:
-        courses = [line.strip() for line in f.readlines() if line.strip()]
+        for line in f.readlines():
+            if line.strip():  # Ensure the line is not empty
+                name, totalClasses, minAttendance, absents = line.strip().split(',')
+                courses.append({
+                    "name": name,
+                    "totalClasses": int(totalClasses),
+                    "minAttendance": int(minAttendance),
+                    "absents": int(absents)
+                })
     return jsonify(courses), 200
+
+# Update absents
+@app.route('/update-absents', methods=['POST'])
+def update_absents():
+    data = request.get_json()
+    course_name = data.get("name")
+    absents = data.get("absents")
+
+    if not course_name or absents is None:
+        return jsonify({"error": "Course name and absents are required"}), 400
+
+    # Read all courses
+    with open(COURSES_FILE, "r") as f:
+        lines = f.readlines()
+
+    # Update the specific course
+    updated = False
+    with open(COURSES_FILE, "w") as f:
+        for line in lines:
+            if line.strip():  # Ensure the line is not empty
+                name, totalClasses, minAttendance, _ = line.strip().split(',')
+                if name == course_name:
+                    f.write(f"{name},{totalClasses},{minAttendance},{absents}\n")
+                    updated = True
+                else:
+                    f.write(line)
+
+    if not updated:
+        return jsonify({"error": "Course not found"}), 404
+
+    return jsonify({"message": "Absents updated successfully"}), 200
 
 # Save profile information
 @app.route('/save-profile', methods=['POST'])

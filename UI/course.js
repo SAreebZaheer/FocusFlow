@@ -1,90 +1,120 @@
 // Initialize variables
-let registrationDate = localStorage.getItem('registrationDate');
-let courses = JSON.parse(localStorage.getItem('courses')) || [];
+let courses = [];
 
-// Initialize the app
-function init() {
-    if (registrationDate) {
-        showMainInterface();
+// Fetch courses from the server
+async function fetchCourses() {
+    try {
+        const response = await fetch('/get-courses');
+        const data = await response.json();
+        courses = data;
+        renderCourses();
+    } catch (error) {
+        console.error('Error fetching courses:', error);
     }
-    renderCourses();
-}
-
-// Registration system
-function registerUser() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    registrationDate = today.getTime();
-    localStorage.setItem('registrationDate', registrationDate);
-    showMainInterface();
-}
-
-function showMainInterface() {
-    document.getElementById('registration').style.display = 'none';
-    document.getElementById('main-interface').style.display = 'block';
 }
 
 // Render courses
 function renderCourses() {
     const courseList = document.getElementById('courseList');
-    courseList.innerHTML = courses.map((course, index) => `
-        <div class="course-card" data-attendance="Attended: ${course.attended} / ${course.totalClasses}">
-            <h3>${course.name}</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: ${(course.attended / course.totalClasses) * 100}%"></div>
-                <div class="progress-threshold"></div>
+    courseList.innerHTML = courses.map((course, index) => {
+        // Calculate allowed absents
+        const allowedAbsents = Math.floor(course.totalClasses * ((100 - course.minAttendance) / 100));
+
+        return `
+            <div class="course-card">
+                <h3>${course.name}</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${(course.absents / allowedAbsents) * 100}%"></div>
+                    <div class="progress-threshold" style="width: 100%"></div>
+                </div>
+                <div class="attendance-controls">
+                    <button onclick="updateAbsents(${index}, 1)">+</button>
+                    <button onclick="updateAbsents(${index}, -1)">-</button>
+                </div>
+                <p>Absents: ${course.absents} / ${allowedAbsents}</p>
             </div>
-            <div class="attendance-controls">
-                <button onclick="updateAttendance(${index}, 1)">+</button>
-                <button onclick="updateAttendance(${index}, -1)">-</button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Add course functionality
-function openAddCourseModal() {
-    document.getElementById('addCourseModal').style.display = 'flex';
-}
-
-function addCourse() {
+async function addCourse() {
     const courseName = document.getElementById('courseName').value;
     const totalClasses = parseInt(document.getElementById('totalClasses').value);
+    const minAttendance = parseInt(document.getElementById('minAttendance').value);
 
-    if (!courseName || !totalClasses) {
+    if (!courseName || !totalClasses || !minAttendance) {
         alert("Please fill in all fields.");
         return;
     }
 
-    courses.push({
+    const course = {
         name: courseName,
         totalClasses: totalClasses,
-        attended: 0
-    });
+        minAttendance: minAttendance,
+        absents: 0
+    };
 
-    saveData();
-    renderCourses();
-    closeModal('addCourseModal');
+    try {
+        const response = await fetch('/add-course', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ course: `${course.name},${course.totalClasses},${course.minAttendance},${course.absents}` }),
+        });
+
+        if (response.ok) {
+            fetchCourses(); // Refresh the course list
+            closeModal('addCourseModal');
+        } else {
+            alert('Failed to add course.');
+        }
+    } catch (error) {
+        console.error('Error adding course:', error);
+    }
 }
 
-// Update attendance
-function updateAttendance(index, change) {
+// Update absents
+async function updateAbsents(index, change) {
     const course = courses[index];
-    course.attended += change;
-    if (course.attended < 0) course.attended = 0;
-    if (course.attended > course.totalClasses) course.attended = course.totalClasses;
-    saveData();
-    renderCourses();
+    course.absents += change;
+    if (course.absents < 0) course.absents = 0;
+
+    // Calculate allowed absents
+    const allowedAbsents = Math.floor(course.totalClasses * ((100 - course.minAttendance) / 100));
+    if (course.absents > allowedAbsents) course.absents = allowedAbsents;
+
+    try {
+        const response = await fetch('/update-absents', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: course.name,
+                absents: course.absents
+            }),
+        });
+
+        if (response.ok) {
+            fetchCourses(); // Refresh the course list
+        } else {
+            alert('Failed to update absents.');
+        }
+    } catch (error) {
+        console.error('Error updating absents:', error);
+    }
 }
 
 // Utility functions
+function openAddCourseModal() {
+    document.getElementById('addCourseModal').style.display = 'flex';
+}
+
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
-function saveData() {
-    localStorage.setItem('courses', JSON.stringify(courses));
-}
-
 // Initialize the app
-init();
+fetchCourses();

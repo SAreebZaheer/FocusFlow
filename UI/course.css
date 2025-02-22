@@ -64,7 +64,6 @@ header h1 {
     padding: 20px;
 }
 
-
 .controls {
     display: flex;
     gap: 10px;
@@ -98,22 +97,6 @@ header h1 {
 .course-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.course-card:hover::after {
-    content: attr(data-attendance);
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 10;
-    pointer-events: none;
 }
 
 .course-card h3 {
@@ -179,7 +162,7 @@ header h1 {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 300px;
+    width: 500px;
 }
 
 .modal-content h2 {
@@ -196,6 +179,7 @@ header h1 {
 
 .form-group {
     margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 .form-group label {
