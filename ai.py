@@ -67,3 +67,21 @@ def summarise(filename):
 
 def transcribe(filename):
     filename = os.path.join('./UI/voice_recordings', filename)
+    myfile = client.files.upload(file=filename)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=["Transcribe this audio. Your response should only have the text transcribed from the audio.", myfile]
+    )
+    
+    heading = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=["Give a single heading for the text below. it will be used to name a file: " + response.text]
+    )
+    
+    fheading = heading.text.strip()
+    text_name = os.path.join("./UI/notes/", fheading + ".txt")
+    
+    with open(text_name, "a") as f:
+        f.write(response.text)
+        
+    return text_name
