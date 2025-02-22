@@ -39,7 +39,9 @@
             <!-- Course Management -->
             <div class="controls">
                 <button onclick="openAddCourseModal()">➕ Add Course</button>
-                <button class="remove-btn" onclick="openRemoveCourseModal()">🗑️ Remove Course</button>
+                <select id="removeCourseDropdown" class="remove-course-dropdown" onchange="openConfirmRemoveModal()">
+                    <option value="" disabled selected>Select a course to remove</option>
+                </select>
             </div>
 
             <!-- Course List -->
@@ -62,14 +64,14 @@
                 </div>
             </div>
 
-            <!-- Remove Course Modal -->
-            <div id="removeCourseModal" class="modal">
-                <div class="modal-content">
+            <!-- Confirm Remove Course Modal -->
+            <div id="confirmRemoveModal" class="confirm-remove-modal">
+                <div class="confirm-remove-modal-content">
                     <h2>Remove Course</h2>
-                    <p>Are you sure you want to remove this course?</p>
-                    <div class="modal-buttons">
+                    <p>Are you sure you want to remove <strong id="courseToRemoveName"></strong>?</p>
+                    <div class="confirm-remove-modal-buttons">
                         <button class="confirm" onclick="confirmRemoveCourse()">Yes, Remove</button>
-                        <button class="cancel" onclick="closeModal('removeCourseModal')">Cancel</button>
+                        <button class="cancel" onclick="closeModal('confirmRemoveModal')">Cancel</button>
                     </div>
                 </div>
             </div>

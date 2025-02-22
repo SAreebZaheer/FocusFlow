@@ -9,6 +9,7 @@ function init() {
         showMainInterface();
     }
     renderCourses();
+    populateRemoveCourseDropdown();
 }
 
 // Registration system
@@ -46,6 +47,42 @@ function renderCourses() {
     `).join('');
 }
 
+// Populate the remove course dropdown
+function populateRemoveCourseDropdown() {
+    const dropdown = document.getElementById('removeCourseDropdown');
+    dropdown.innerHTML = '<option value="" disabled selected>Select a course to remove</option>';
+    courses.forEach((course, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = course.name;
+        dropdown.appendChild(option);
+    });
+}
+
+// Open the confirmation modal for removing a course
+function openConfirmRemoveModal() {
+    const dropdown = document.getElementById('removeCourseDropdown');
+    const selectedIndex = dropdown.value;
+    if (selectedIndex === "") return;
+
+    courseToRemove = selectedIndex;
+    const courseName = courses[selectedIndex].name;
+    document.getElementById('courseToRemoveName').textContent = courseName;
+    document.getElementById('confirmRemoveModal').style.display = 'flex';
+}
+
+// Confirm removal of the selected course
+function confirmRemoveCourse() {
+    if (courseToRemove !== null) {
+        courses.splice(courseToRemove, 1);
+        saveData();
+        renderCourses();
+        populateRemoveCourseDropdown();
+        closeModal('confirmRemoveModal');
+        courseToRemove = null;
+    }
+}
+
 // Add course functionality
 function openAddCourseModal() {
     document.getElementById('addCourseModal').style.display = 'flex';
@@ -68,22 +105,8 @@ function addCourse() {
 
     saveData();
     renderCourses();
+    populateRemoveCourseDropdown();
     closeModal('addCourseModal');
-}
-
-// Remove course functionality
-function openRemoveCourseModal() {
-    document.getElementById('removeCourseModal').style.display = 'flex';
-}
-
-function confirmRemoveCourse() {
-    if (courseToRemove !== null) {
-        courses.splice(courseToRemove, 1);
-        saveData();
-        renderCourses();
-        closeModal('removeCourseModal');
-        courseToRemove = null;
-    }
 }
 
 // Update attendance
