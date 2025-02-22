@@ -17,6 +17,11 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self, content_type):
         self.send_response(200)
         self.send_header('Content-Type', content_type)
+        self.send_header('Access-Control-Allow-Origin', '*')  # Allow from any origin (for development)
+        # Or, for production, specify the allowed origin:
+        # self.send_header('Access-Control-Allow-Origin', 'http://yourdomain.com')  # Replace with your domain
+        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') # Allow POST requests
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type') # Allow Content-Type header
         self.end_headers()
 
     def getPath(self):
