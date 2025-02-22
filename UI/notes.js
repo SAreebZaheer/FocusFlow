@@ -7,8 +7,6 @@ plusButton.addEventListener('click', () => {
     uploadOptions.style.display = uploadOptions.style.display === 'block' ? 'none' : 'block';
 });
 
-const uploadOptions = document.getElementById('uploadOptions');
-
 uploadOptions.addEventListener('click', (event) => {
     const clickedButton = event.target;
 
