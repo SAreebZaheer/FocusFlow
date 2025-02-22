@@ -28,7 +28,7 @@ def getText(filename):
     # Remove any leading/trailing whitespace and newline characters from the heading
     fheading = heading.text.strip()
     # Construct the full path to the text file
-    text_name = os.path.join("./UI/notes/", fheading)
+    text_name = os.path.join("./UI/notes/", fheading +".txt")
     
     # Create and write to the text file
     with open(text_name, "w") as f:
@@ -64,3 +64,6 @@ def summarise(filename):
         f.write(response.text)
 
     return text_name
+
+def transcribe(filename):
+    filename = os.path.join('./UI/voice_recordings', filename)

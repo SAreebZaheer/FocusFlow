@@ -25,6 +25,15 @@ NOTES_IMAGE_FOLDER = './UI/notes_images'
 if not os.path.exists(NOTES_IMAGE_FOLDER):
     os.makedirs(NOTES_IMAGE_FOLDER)
 
+TEXT_FILES_FOLDER = './UI/notes'
+
+# Define the directory where uploaded voice recordings will be saved
+VOICE_RECORDINGS_FOLDER = './UI/voice_recordings'
+if not os.path.exists(VOICE_RECORDINGS_FOLDER):
+    os.makedirs(VOICE_RECORDINGS_FOLDER)
+
+app.config['VOICE_RECORDINGS_FOLDER'] = VOICE_RECORDINGS_FOLDER
+app.config['TEXT_FILES_FOLDER'] = TEXT_FILES_FOLDER
 app.config['PROFILE_PHOTO_FOLDER'] = PROFILE_PHOTO_FOLDER
 app.config['NOTES_IMAGE_FOLDER'] = NOTES_IMAGE_FOLDER
 
@@ -178,17 +187,35 @@ def get_profile():
 @app.route('/get-text-files', methods=['GET'])
 def get_text_files():
     text_files = []
-    notes_image_folder = app.config['NOTES_IMAGE_FOLDER']
+    text_files_folder = app.config['TEXT_FILES_FOLDER']
     
-    # Assuming text files are stored in the same directory as images
-    for filename in os.listdir(notes_image_folder):
+    for filename in os.listdir(text_files_folder):
         if filename.endswith('.txt'):
-            text_files.append({
-                "name": filename,
-                "path": os.path.join(notes_image_folder, filename)
-            })
+            text_files.append(filename)  # Only return the filename
     
     return jsonify(text_files), 200
 
+
+@app.route('/get-text-file/<filename>', methods=['GET'])
+def get_text_file(filename):
+    text_files_folder = app.config['TEXT_FILES_FOLDER']
+    file_path = os.path.join(text_files_folder, filename)
+
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File not found"}), 404
+
+    with open(file_path, 'r') as f:
+        content = f.read()
+
+    return jsonify({
+        "filename": filename,
+        "content": content
+    }), 200
+    
+@app.route('/notes/<path:filename>')
+def serve_text_file(filename):
+    return send_from_directory(app.config['TEXT_FILES_FOLDER'], filename)
+
+
 if __name__ == '__main__':
-    app.run(host='192.168.0.10', port=8000, debug=True)
+    app.run(host='192.168.0.106', port=8000, debug=True)

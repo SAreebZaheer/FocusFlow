@@ -1,0 +1,10 @@
+*   Transfer receipt for transaction reference number 947334534065.
+*   The transfer was made from Ambreeen Zaheer's account.
+*   Account number: 3130391000003752.
+*   The recipient is G.I.K.I. TF A/C.
+*   Account number: 00427991707303.
+*   The transaction was processed via Habib Bank Ltd.
+*   An amount of 248,719.00 was transferred.
+*   The payment date was 08/12/2024.
+*   The purpose of the payment was for educational expenses.
+*   It's a record of a successful transaction.

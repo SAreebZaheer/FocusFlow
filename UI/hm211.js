@@ -8,7 +8,7 @@ const SERVER_URL = 'http://192.168.0.106:8000';
 
 // Function to fetch and display text files
 function fetchAndDisplayTextFiles() {
-    fetch(`${SERVER_URL}/get-text-files`) // You need to add this endpoint in your server
+    fetch(`${SERVER_URL}/get-text-files`)
         .then(response => response.json())
         .then(textFiles => {
             const textFilesContainer = document.createElement('div');
@@ -18,7 +18,7 @@ function fetchAndDisplayTextFiles() {
             textFilesContainer.style.gap = '20px';
             textFilesContainer.style.marginTop = '20px';
 
-            textFiles.forEach(file => {
+            textFiles.forEach(filename => {
                 const fileBlock = document.createElement('div');
                 fileBlock.style.backgroundColor = '#f0f0f0';
                 fileBlock.style.borderRadius = '10px';
@@ -28,12 +28,27 @@ function fetchAndDisplayTextFiles() {
                 fileBlock.style.width = '200px';
 
                 const fileName = document.createElement('h3');
-                fileName.textContent = file.name;
+                fileName.textContent = filename;
                 fileName.style.margin = '0';
 
                 fileBlock.appendChild(fileName);
+
+                // Add a container for the text content
+                const textContentContainer = document.createElement('div');
+                textContentContainer.style.display = 'none'; // Initially hidden
+                textContentContainer.style.marginTop = '10px';
+
+                fileBlock.appendChild(textContentContainer);
+
                 fileBlock.addEventListener('click', () => {
-                    displayTextFileContent(file.path);
+                    // Toggle visibility of the text content
+                    if (textContentContainer.style.display === 'none') {
+                        // If hidden, fetch and display the content
+                        fetchTextFileContent(filename, textContentContainer);
+                    } else {
+                        // If visible, hide the content
+                        textContentContainer.style.display = 'none';
+                    }
                 });
 
                 textFilesContainer.appendChild(fileBlock);
@@ -47,24 +62,31 @@ function fetchAndDisplayTextFiles() {
         });
 }
 
-// Function to display the content of a text file
-function displayTextFileContent(filePath) {
-    fetch(filePath)
-        .then(response => response.text())
-        .then(text => {
-            const textDisplay = document.createElement('div');
-            textDisplay.style.backgroundColor = '#fff';
-            textDisplay.style.borderRadius = '10px';
-            textDisplay.style.padding = '20px';
-            textDisplay.style.marginTop = '20px';
-            textDisplay.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
-            textDisplay.textContent = text;
+// Function to fetch and display the content of a text file
+function fetchTextFileContent(filename, container) {
+    fetch(`${SERVER_URL}/get-text-file/${filename}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
 
-            const main = document.querySelector('main');
-            main.appendChild(textDisplay);
+            // Clear previous content
+            container.innerHTML = '';
+
+            // Create a paragraph for the text content
+            const textContent = document.createElement('p');
+            textContent.textContent = data.content;
+
+            // Append the text content to the container
+            container.appendChild(textContent);
+
+            // Show the container
+            container.style.display = 'block';
         })
         .catch(error => {
             console.error('Error fetching text file content:', error);
+            alert(`Error: ${error.message}`);
         });
 }
 

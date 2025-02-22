@@ -75,7 +75,6 @@ nav a {
     text-decoration: none;
 }
 
-
 .plus-button {
     position: fixed;
     bottom: 20px;
@@ -127,4 +126,48 @@ nav a {
 
 .uploads button:hover {
     background-color: #e0e0e0;
+}
+
+/* New styles for the text files list */
+#text-files-container {
+    display: flex;
+    flex-direction: column; /* List filenames vertically */
+    gap: 10px; /* Space between items */
+    margin: 20px;
+    width: 100%;
+    max-width: 600px; /* Limit width for better readability */
+}
+
+.file-block {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.file-block:hover {
+    background-color: #e0e0e0;
+}
+
+.file-block h3 {
+    margin: 10px;
+    color: #86C392;
+    font-size: 1.2em;
+}
+
+.text-content-container {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-content-container p {
+    margin: 10px;
+    color: #333;
+    line-height: 1.5;
 }
