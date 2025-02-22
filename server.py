@@ -71,23 +71,25 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
         print(f"Response sent for: {content_path}")
 
     def do_POST(self):
+        print(f"Received POST request for: {self.path}")
         if self.path == '/upload':
             try:
+                # Parse the form data
                 form = cgi.FieldStorage(
                     fp=self.rfile,
                     headers=self.headers,
-                    environ={'REQUEST_METHOD': 'POST'}
+                    environ={'REQUEST_METHOD': 'POST', 'CONTENT_TYPE': self.headers['Content-Type']}
                 )
 
+                # Process each field in the form
                 for field in form.list:
                     if field.filename:
                         print(f"Received file: {field.filename}")
                         print(f"Content-Type: {field.content_type}")
 
-                        filename = field.filename
-                        filename = os.path.basename(filename)
+                        filename = os.path.basename(field.filename)
 
-                        # Determine subdirectory
+                        # Determine subdirectory based on file type
                         if field.content_type.startswith('image/'):
                             subdirectory = 'notes_images'
                         elif field.content_type.startswith('audio/'):
@@ -95,21 +97,24 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                         else:
                             subdirectory = 'uploads'
 
-                        filepath = os.path.join(my_html_folder_path, subdirectory, filename)
-
+                        # Create the subdirectory if it doesn't exist
                         os.makedirs(os.path.join(my_html_folder_path, subdirectory), exist_ok=True)
 
+                        # Save the file
+                        filepath = os.path.join(my_html_folder_path, subdirectory, filename)
                         with open(filepath, 'wb') as f:
                             f.write(field.file.read())
 
+                        # Send success response
                         self._set_headers('application/json')
-                        self.wfile.write(bytes(f'{{"message": "File uploaded successfully", "filename": "{filename}", "subdirectory": "{subdirectory}"}}', 'utf-8'))
-
+                        response = f'{{"message": "File uploaded successfully", "filename": "{filename}", "subdirectory": "{subdirectory}"}}'
+                        self.wfile.write(response.encode('utf-8'))
                         print(f"File '{filename}' uploaded successfully to '{filepath}'")
                         return
 
+                # If no file was uploaded
                 self._set_headers('application/json')
-                self.wfile.write(bytes('{"message": "No file uploaded"}', 'utf-8'))
+                self.wfile.write(b'{"message": "No file uploaded"}')
                 self.send_response(400)
                 return
 
@@ -117,17 +122,16 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 print(f"Error during file upload: {e}")
                 traceback.print_exc()  # Print detailed traceback
                 self._set_headers('application/json')
-                self.wfile.write(bytes(f'{{"message": "File upload failed: {e}"}}', 'utf-8'))
+                self.wfile.write(f'{{"message": "File upload failed: {str(e)}"}}'.encode('utf-8'))
                 self.send_error(500, "Internal Server Error")
                 return
-
         else:
             self.send_error(404, "Not Found")
 
-    def do_OPTIONS(self):  # Handle preflight OPTIONS request
-        self._set_headers('application/json') # Use _set_headers to set CORS headers
-        self.send_response(200) # Respond with 200 OK
-        return # Important: Stop processing after OPTIONS request
+    def do_OPTIONS(self):
+        self._set_headers('application/json')
+        self.send_response(200)
+        return
 
 # Create the server
 with socketserver.TCPServer(("192.168.0.108", my_port), MyHttpRequestHandler) as httpd:
