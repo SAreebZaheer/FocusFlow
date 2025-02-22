@@ -5,32 +5,44 @@ from os import path
 import cgi
 import traceback  # For detailed error information
 
+# Server configuration
 my_host_name = 'localhost'
 my_port = 8000
-my_html_folder_path = './UI/'
-my_home_page_file_path = 'index.html'
+my_html_folder_path = './UI/'  # Folder containing your HTML, CSS, and JS files
+my_home_page_file_path = 'index.html'  # Default home page
 
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def _set_headers(self, content_type):
+    def _set_headers(self, content_type='text/html'):
+        """
+        Set common headers for responses, including CORS headers.
+        """
         self.send_response(200)
         self.send_header('Content-Type', content_type)
-        self.send_header('Access-Control-Allow-Origin', '*')  # For development. Use your domain in production!
+        self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins (for development)
         self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
     def getPath(self):
+        """
+        Determine the file path based on the request path.
+        """
         if self.path == '/':
+            # Serve the home page
             content_path = path.join(my_html_folder_path, my_home_page_file_path)
         else:
-            requested_path = str(self.path).split('?')[0][1:]
-            safe_path = os.path.normpath(requested_path)
-            if safe_path.startswith(".."):
+            # Serve other files (CSS, JS, images, etc.)
+            requested_path = str(self.path).split('?')[0][1:]  # Remove leading '/' and query string
+            safe_path = os.path.normpath(requested_path)  # Normalize the path
+            if safe_path.startswith(".."):  # Prevent directory traversal
                 return None
             content_path = path.join(my_html_folder_path, safe_path)
         return content_path
 
     def getContent(self, content_path):
+        """
+        Read the content of a file.
+        """
         try:
             with open(content_path, 'rb') as f:
                 content = f.read()
@@ -39,7 +51,10 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             return None
 
     def do_GET(self):
-        print(f"Received request for: {self.path}")
+        """
+        Handle GET requests (serve static files).
+        """
+        print(f"Received GET request for: {self.path}")
         content_path = self.getPath()
         if content_path is None:
             self.send_error(404, "File Not Found")
@@ -49,37 +64,45 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "File Not Found")
             return
 
-        file_extension = os.path.splitext(content_path)[1]
-
-        content_type = 'text/html'
+        # Determine content type based on file extension
+        file_extension = os.path.splitext(content_path)[1].lower()
+        content_type = 'text/html'  # Default content type
         if file_extension == '.css':
             content_type = 'text/css'
         elif file_extension == '.js':
             content_type = 'application/javascript'
         elif file_extension in ['.png', '.jpg', '.jpeg', '.gif', '.bmp']:
             content_type = f'image/{file_extension[1:]}'
+        elif file_extension == '.json':
+            content_type = 'application/json'
 
+        # Read and serve the file
         content = self.getContent(content_path)
-
         if content is None:
             self.send_error(404, "File Not Found")
             return
 
         self._set_headers(content_type)
-        print(f"Sending response for: {content_path}")
+        print(f"Serving file: {content_path}")
         self.wfile.write(content)
-        print(f"Response sent for: {content_path}")
 
     def do_POST(self):
+        """
+        Handle POST requests (file uploads).
+        """
         print(f"Received POST request for: {self.path}")
         if self.path == '/upload':
             try:
-                # Parse the form data
+                # Parse the multipart form data
                 form = cgi.FieldStorage(
                     fp=self.rfile,
                     headers=self.headers,
-                    environ={'REQUEST_METHOD': 'POST', 'CONTENT_TYPE': self.headers['Content-Type']}
+                    environ={
+                        'REQUEST_METHOD': 'POST',
+                        'CONTENT_TYPE': self.headers['Content-Type'],
+                    }
                 )
+                print("Form data parsed successfully")
 
                 # Process each field in the form
                 for field in form.list:
@@ -129,11 +152,15 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "Not Found")
 
     def do_OPTIONS(self):
+        """
+        Handle OPTIONS requests (CORS preflight).
+        """
         self._set_headers('application/json')
         self.send_response(200)
         return
 
-# Create the server
+
+# Start the server
 with socketserver.TCPServer(("192.168.0.108", my_port), MyHttpRequestHandler) as httpd:
     print(f"Server running at http://192.168.0.108:{my_port}")
     httpd.serve_forever()
