@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Info</title>
+    <link rel="stylesheet" href="attendance.css"> <!-- Reuse the same CSS file -->
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <h1>FocusFlow</h1>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="./index.html">Dashboard</a></li>
+                    <li><a href="./timetable.html">Schedule</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="./notes.html">Notes</a></li>
+                    <li><a href="./attendance.html">Attendance</a></li>
+                    <li><a href="./account.html">Account</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Account Information</h1>
+
+        <!-- User Info Section -->
+        <div class="user-info">
+            <div class="profile-picture">
+                <img src="https://via.placeholder.com/150" alt="Profile Picture">
+            </div>
+            <div class="user-details">
+                <h2>John Doe</h2>
+                <p>Email: john.doe@example.com</p>
+            </div>
+        </div>
+
+        <!-- Course Info Section -->
+        <div class="course-info">
+            <h2>Your Courses</h2>
+            <div id="courseList"></div> <!-- Courses will be dynamically populated here -->
+        </div>
+
+        <!-- Logout Button -->
+        <div class="logout-section">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script src="account.js"></script>
+</body>
+</html>
