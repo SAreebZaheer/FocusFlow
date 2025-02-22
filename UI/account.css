@@ -1,3 +1,76 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #E4D1BD;
+    color: #5a4d41;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #86C392;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.nav-left {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-right li {
+    margin: 0 15px;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-right a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+    display: block;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #86C392;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 /* User Info Section */
 .user-info {
     display: flex;
@@ -6,11 +79,29 @@
     margin-bottom: 30px;
 }
 
+.profile-picture {
+    text-align: center;
+}
+
 .profile-picture img {
     width: 150px;
     height: 150px;
-    border-radius: 50%;
     border: 3px solid #86C392;
+    margin-bottom: 10px;
+}
+
+.profile-picture button {
+    padding: 8px 16px;
+    background: #86C392;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-picture button:hover {
+    background: #75a87f;
 }
 
 .user-details h2 {
@@ -27,6 +118,25 @@
 .course-info h2 {
     color: #86C392;
     margin-bottom: 20px;
+}
+
+.course-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.course-card h3 {
+    margin: 0 0 10px;
+    color: #86C392;
+}
+
+.course-info {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #5a4d41;
 }
 
 /* Logout Button */

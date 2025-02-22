@@ -1,7 +1,6 @@
 // Initialize variables
 let registrationDate = localStorage.getItem('registrationDate');
 let courses = JSON.parse(localStorage.getItem('courses')) || [];
-let courseToRemove = null;
 
 // Initialize the app
 function init() {
@@ -9,7 +8,7 @@ function init() {
         showMainInterface();
     }
     renderCourses();
-    populateRemoveCourseDropdown();
+    saveCoursesToFile();
 }
 
 // Registration system
@@ -40,47 +39,8 @@ function renderCourses() {
                 <button onclick="updateAttendance(${index}, 1)">+</button>
                 <button onclick="updateAttendance(${index}, -1)">-</button>
             </div>
-            <div class="course-info">
-                Attended: ${course.attended} / ${course.totalClasses}
-            </div>
         </div>
     `).join('');
-}
-
-// Populate the remove course dropdown
-function populateRemoveCourseDropdown() {
-    const dropdown = document.getElementById('removeCourseDropdown');
-    dropdown.innerHTML = '<option value="" disabled selected>Select a course to remove</option>';
-    courses.forEach((course, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = course.name;
-        dropdown.appendChild(option);
-    });
-}
-
-// Open the confirmation modal for removing a course
-function openConfirmRemoveModal() {
-    const dropdown = document.getElementById('removeCourseDropdown');
-    const selectedIndex = dropdown.value;
-    if (selectedIndex === "") return;
-
-    courseToRemove = selectedIndex;
-    const courseName = courses[selectedIndex].name;
-    document.getElementById('courseToRemoveName').textContent = courseName;
-    document.getElementById('confirmRemoveModal').style.display = 'flex';
-}
-
-// Confirm removal of the selected course
-function confirmRemoveCourse() {
-    if (courseToRemove !== null) {
-        courses.splice(courseToRemove, 1);
-        saveData();
-        renderCourses();
-        populateRemoveCourseDropdown();
-        closeModal('confirmRemoveModal');
-        courseToRemove = null;
-    }
 }
 
 // Add course functionality
@@ -105,8 +65,20 @@ function addCourse() {
 
     saveData();
     renderCourses();
-    populateRemoveCourseDropdown();
+    saveCoursesToFile();
     closeModal('addCourseModal');
+}
+
+// Save courses to a text file
+function saveCoursesToFile() {
+    const coursesText = courses.map(course => `${course.name}: ${course.attended}/${course.totalClasses}`).join('\n');
+    const blob = new Blob([coursesText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'courses.txt';
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 // Update attendance
@@ -117,6 +89,7 @@ function updateAttendance(index, change) {
     if (course.attended > course.totalClasses) course.attended = course.totalClasses;
     saveData();
     renderCourses();
+    saveCoursesToFile();
 }
 
 // Utility functions

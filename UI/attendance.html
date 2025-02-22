@@ -10,7 +10,7 @@
     <header>
         <nav>
             <div class="nav-left">
-                <h1>FocusFlow</h1> <!-- Ensure this is wrapped in an h1 or similar element -->
+                <h1>FocusFlow</h1>
             </div>
             <div class="nav-right">
                 <ul>
@@ -19,7 +19,7 @@
                     <li><a href="tasks.html">Tasks</a></li>
                     <li><a href="./notes.html">Notes</a></li>
                     <li><a href="./attendance.html">Attendance</a></li>
-                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="./account.html">Account</a></li>
                 </ul>
             </div>
         </nav>
@@ -39,9 +39,6 @@
             <!-- Course Management -->
             <div class="controls">
                 <button onclick="openAddCourseModal()">➕ Add Course</button>
-                <select id="removeCourseDropdown" class="remove-course-dropdown" onchange="openConfirmRemoveModal()">
-                    <option value="" disabled selected>Select a course to remove</option>
-                </select>
             </div>
 
             <!-- Course List -->
@@ -61,18 +58,6 @@
                         <input type="number" id="totalClasses" min="1" required>
                     </div>
                     <button class="submit-btn" onclick="addCourse()">Add Course</button>
-                </div>
-            </div>
-
-            <!-- Confirm Remove Course Modal -->
-            <div id="confirmRemoveModal" class="confirm-remove-modal">
-                <div class="confirm-remove-modal-content">
-                    <h2>Remove Course</h2>
-                    <p>Are you sure you want to remove <strong id="courseToRemoveName"></strong>?</p>
-                    <div class="confirm-remove-modal-buttons">
-                        <button class="confirm" onclick="confirmRemoveCourse()">Yes, Remove</button>
-                        <button class="cancel" onclick="closeModal('confirmRemoveModal')">Cancel</button>
-                    </div>
                 </div>
             </div>
         </div>

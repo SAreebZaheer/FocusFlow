@@ -1,32 +1,49 @@
-// Fetch user data and courses from localStorage
+// Fetch user data from localStorage
 const user = JSON.parse(localStorage.getItem('user')) || {
     name: "John Doe",
     email: "john.doe@example.com",
     profilePicture: "https://via.placeholder.com/150"
 };
 
-const courses = JSON.parse(localStorage.getItem('courses')) || [];
-
 // Populate user info
-document.querySelector('.user-details h2').textContent = user.name;
-document.querySelector('.user-details p').textContent = `Email: ${user.email}`;
-document.querySelector('.profile-picture img').src = user.profilePicture;
+document.getElementById('userName').textContent = user.name;
+document.getElementById('userEmail').textContent = `Email: ${user.email}`;
+document.getElementById('profilePicture').src = user.profilePicture;
 
-// Populate course info
-function renderCourses() {
-    const courseList = document.getElementById('courseList');
-    courseList.innerHTML = courses.map((course, index) => `
-        <div class="course-card">
-            <h3>${course.name}</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: ${(course.attended / course.totalClasses) * 100}%"></div>
-                <div class="progress-threshold"></div>
-            </div>
-            <div class="course-info">
-                Attended: ${course.attended} / ${course.totalClasses}
-            </div>
-        </div>
-    `).join('');
+// Handle profile picture upload
+document.getElementById('profilePictureInput').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const profilePicture = document.getElementById('profilePicture');
+            profilePicture.src = e.target.result;
+
+            // Save the new profile picture to localStorage
+            user.profilePicture = e.target.result;
+            localStorage.setItem('user', JSON.stringify(user));
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Fetch and display courses from courses.txt
+function fetchCourses() {
+    fetch('courses.txt')
+        .then(response => response.text())
+        .then(data => {
+            const courseList = document.getElementById('courseList');
+            const courses = data.split('\n').filter(line => line.trim() !== '');
+            courseList.innerHTML = courses.map(course => `
+                <div class="course-card">
+                    <h3>${course.split(':')[0]}</h3>
+                    <div class="course-info">
+                        ${course.split(':')[1]}
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(error => console.error('Error fetching courses:', error));
 }
 
 // Logout functionality
@@ -38,4 +55,4 @@ function logout() {
 }
 
 // Initialize the page
-renderCourses();
+fetchCourses();
