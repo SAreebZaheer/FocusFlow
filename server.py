@@ -3,6 +3,7 @@ import socketserver
 import os
 from os import path
 import cgi
+import traceback  # For detailed error information
 
 my_host_name = 'localhost'
 my_port = 8000
@@ -71,35 +72,38 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/upload':
-            form = cgi.FieldStorage(
-                fp=self.rfile,
-                headers=self.headers,
-                environ={'REQUEST_METHOD': 'POST'}
-            )
-
             try:
+                form = cgi.FieldStorage(
+                    fp=self.rfile,
+                    headers=self.headers,
+                    environ={'REQUEST_METHOD': 'POST'}
+                )
+
                 for field in form.list:
                     if field.filename:
+                        print(f"Received file: {field.filename}")
+                        print(f"Content-Type: {field.content_type}")
+
                         filename = field.filename
                         filename = os.path.basename(filename)
-                        
-                        # Determine the correct subdirectory based on file type
+
+                        # Determine subdirectory
                         if field.content_type.startswith('image/'):
                             subdirectory = 'notes_images'
                         elif field.content_type.startswith('audio/'):
-                            subdirectory = 'recordings' # or another appropriate name
-                        else:  # Default to 'uploads' for other file types
+                            subdirectory = 'recordings'
+                        else:
                             subdirectory = 'uploads'
 
                         filepath = os.path.join(my_html_folder_path, subdirectory, filename)
 
-                        os.makedirs(os.path.join(my_html_folder_path, subdirectory), exist_ok=True)  # Create subdir
+                        os.makedirs(os.path.join(my_html_folder_path, subdirectory), exist_ok=True)
 
                         with open(filepath, 'wb') as f:
                             f.write(field.file.read())
 
                         self._set_headers('application/json')
-                        self.wfile.write(bytes(f'{{"message": "File uploaded successfully", "filename": "{filename}", "subdirectory": "{subdirectory}"}}', 'utf-8')) # include subdirectory in response
+                        self.wfile.write(bytes(f'{{"message": "File uploaded successfully", "filename": "{filename}", "subdirectory": "{subdirectory}"}}', 'utf-8'))
 
                         print(f"File '{filename}' uploaded successfully to '{filepath}'")
                         return
@@ -111,6 +115,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             except Exception as e:
                 print(f"Error during file upload: {e}")
+                traceback.print_exc()  # Print detailed traceback
                 self._set_headers('application/json')
                 self.wfile.write(bytes(f'{{"message": "File upload failed: {e}"}}', 'utf-8'))
                 self.send_error(500, "Internal Server Error")
@@ -122,6 +127,6 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 my_handler = MyHttpRequestHandler
 
-with socketserver.TCPServer(("192.168.0.108", my_port), my_handler) as httpd:
+with socketserver.TCPServer(("192.168.0.108", my_port), my_handler) as httpd:  # Bind to all interfaces
     print(f"Http Server Serving at http://192.168.0.108:{my_port}")
     httpd.serve_forever()
