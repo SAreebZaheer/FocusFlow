@@ -1,8 +1,5 @@
 const plusButton = document.getElementById('plusButton');
 const uploadOptions = document.getElementById('uploadOptions');
-const externalFormModal = document.getElementById('externalFormModal');
-const closeModal = document.querySelector('.close');
-const externalFormIframe = document.getElementById('externalFormIframe');
 
 uploadOptions.style.display = 'none';
 
@@ -10,27 +7,57 @@ plusButton.addEventListener('click', () => {
     uploadOptions.style.display = uploadOptions.style.display === 'block' ? 'none' : 'block';
 });
 
+// Create a hidden file input element
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+// Function to handle file upload
+function uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/upload', true);
+
+    xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            console.log(`Upload progress: ${percentComplete}%`);
+        }
+    };
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            alert('File uploaded successfully!');
+        } else {
+            alert('Upload failed. Please try again.');
+        }
+    };
+
+    xhr.onerror = function() {
+        alert('Upload failed. Please check your connection.');
+    };
+
+    xhr.send(formData);
+}
+
+// Handle image upload button click
 document.getElementById('uploadImage').addEventListener('click', () => {
-    externalFormIframe.src = './uploadImageForm.html'; // Path to your external HTML file
-    externalFormModal.style.display = 'block';
+    fileInput.click(); // Trigger file selection dialog
 });
 
-document.getElementById('uploadDocument').addEventListener('click', () => {
-    externalFormIframe.src = './uploadDocumentForm.html'; // Path to your external HTML file
-    externalFormModal.style.display = 'block';
-});
-
-document.getElementById('uploadRecording').addEventListener('click', () => {
-    externalFormIframe.src = './uploadRecordingForm.html'; // Path to your external HTML file
-    externalFormModal.style.display = 'block';
-});
-
-closeModal.addEventListener('click', () => {
-    externalFormModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === externalFormModal) {
-        externalFormModal.style.display = 'none';
+// Handle file selection
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.type.startsWith('image/')) {
+            uploadFile(file);
+        } else {
+            alert('Please select an image file.');
+        }
     }
 });
