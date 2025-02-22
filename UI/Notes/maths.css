@@ -74,3 +74,57 @@ nav a {
     /* Links in header should be white */
     text-decoration: none;
 }
+
+
+.plus-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #86C392;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 2em;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.upload-options {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.upload-options button {
+    display: block;
+    /* Make each button a block element */
+    width: auto;
+    padding: 10px 15px;
+    /* Increased padding */
+    margin: 5px 0;
+    /* Vertical margin only */
+    border: none;
+    background-color: #f8f8f8;
+    /* Light gray background for buttons */
+    cursor: pointer;
+    color: #86C392;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    /* More rounded corners */
+    transition: background-color 0.3s;
+    text-align: center;
+    /* Align text to the left */
+}
+
+.upload-options button:hover {
+    background-color: #e0e0e0;
+}
