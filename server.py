@@ -37,5 +37,38 @@ def upload_file():
     else:
         return jsonify({"error": "Invalid file type. Only images are allowed."}), 400
 
+# New endpoint to save courses to a text file
+@app.route('/saveCourses', methods=['POST'])
+def save_courses():
+    try:
+        # Get the courses from the request
+        courses = request.json.get('courses')
+        if not courses:
+            return jsonify({"error": "No courses provided"}), 400
+
+        # Save courses to a text file
+        with open('courses.txt', 'w') as file:
+            for course in courses:
+                file.write(f"{course}\n")
+
+        return jsonify({"message": "Courses saved successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# New endpoint to fetch courses from the text file
+@app.route('/getCourses', methods=['GET'])
+def get_courses():
+    try:
+        # Read courses from the text file
+        if not os.path.exists('courses.txt'):
+            return jsonify({"error": "No courses found"}), 404
+
+        with open('courses.txt', 'r') as file:
+            courses = file.read().splitlines()
+
+        return jsonify({"courses": courses}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(host='192.168.0.108', port=8000, debug=True)
