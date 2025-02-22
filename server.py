@@ -40,7 +40,7 @@ app.config['NOTES_IMAGE_FOLDER'] = NOTES_IMAGE_FOLDER
 # Serve static files from the ./UI directory
 @app.route('/')
 def serve_index():
-    return send_from_directory('./UI', 'index.html')
+    return send_from_directory('./UI', 'dash.html')
 
 # Serve other HTML files from the ./UI directory
 @app.route('/<path:filename>')
