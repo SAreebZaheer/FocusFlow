@@ -4,7 +4,7 @@ const uploadOptions = document.getElementById('uploadOptions');
 uploadOptions.style.display = 'none';
 
 // Define server URL
-const SERVER_URL = 'http://192.168.0.108:8000';
+const SERVER_URL = 'http://192.168.0.106:8000';
 
 plusButton.addEventListener('click', () => {
     uploadOptions.style.display = uploadOptions.style.display === 'block' ? 'none' : 'block';
