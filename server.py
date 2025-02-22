@@ -216,6 +216,49 @@ def get_text_file(filename):
 def serve_text_file(filename):
     return send_from_directory(app.config['TEXT_FILES_FOLDER'], filename)
 
+# Upload document
+@app.route('/upload-document', methods=['POST'])
+def upload_document():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file and file.filename.lower().endswith(('.pdf', '.doc', '.docx', '.txt')):  # Add more extensions if needed
+        file_path = os.path.join(app.config['TEXT_FILES_FOLDER'], file.filename)
+        file.save(file_path)
+
+        return jsonify({
+            "message": "Document uploaded successfully",
+            "file_path": file_path
+        }), 200
+    else:
+        return jsonify({"error": "Invalid file type. Only documents are allowed."}), 400
+
+# Upload voice recording
+@app.route('/upload-voice-recording', methods=['POST'])
+def upload_voice_recording():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file and file.filename.lower().endswith(('.mp3', '.wav', '.ogg')):  # Add more extensions if needed
+        file_path = os.path.join(app.config['VOICE_RECORDINGS_FOLDER'], file.filename)
+        file.save(file_path)
+
+        return jsonify({
+            "message": "Voice recording uploaded successfully",
+            "file_path": file_path
+        }), 200
+    else:
+        return jsonify({"error": "Invalid file type. Only audio files are allowed."}), 400
 
 if __name__ == '__main__':
     app.run(host='192.168.0.106', port=8000, debug=True)

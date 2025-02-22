@@ -90,6 +90,53 @@ function fetchTextFileContent(filename, container) {
         });
 }
 
+// Function to handle document upload
+function uploadDocument(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch(`${SERVER_URL}/upload-document`, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            console.log('Document upload success:', data);
+            alert('Document uploaded successfully!');
+            fetchAndDisplayTextFiles();  // Refresh the list of text files after upload
+        })
+        .catch(error => {
+            console.error('Document upload error:', error);
+            alert(`Document upload failed: ${error.message}`);
+        });
+}
+
+// Function to handle voice recording upload
+function uploadVoiceRecording(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch(`${SERVER_URL}/upload-voice-recording`, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            console.log('Voice recording upload success:', data);
+            alert('Voice recording uploaded successfully!');
+        })
+        .catch(error => {
+            console.error('Voice recording upload error:', error);
+            alert(`Voice recording upload failed: ${error.message}`);
+        });
+}
+
 // Handle the plus button click to show/hide upload options
 plusButton.addEventListener('click', () => {
     uploads.style.display = uploads.style.display === 'flex' ? 'none' : 'flex';
@@ -101,6 +148,21 @@ fileInput.type = 'file';
 fileInput.accept = 'image/*';
 fileInput.style.display = 'none';
 document.body.appendChild(fileInput);
+
+// Create a hidden file input element for documents
+const documentInput = document.createElement('input');
+documentInput.type = 'file';
+documentInput.accept = '.pdf,.doc,.docx,.txt';  // Add more extensions if needed
+documentInput.style.display = 'none';
+document.body.appendChild(documentInput);
+
+// Create a hidden file input element for voice recordings
+const voiceRecordingInput = document.createElement('input');
+voiceRecordingInput.type = 'file';
+voiceRecordingInput.accept = '.mp3,.wav,.ogg';  // Add more extensions if needed
+voiceRecordingInput.style.display = 'none';
+document.body.appendChild(voiceRecordingInput);
+
 
 // Function to handle file upload
 function uploadFile(file) {
@@ -123,9 +185,21 @@ function uploadFile(file) {
         });
 }
 
+
+
 // Handle image upload button click
 document.querySelector('.uploads button').addEventListener('click', () => {
     fileInput.click();
+});
+
+//Handle document upload button click
+document.querySelector('.uploads button:nth-child(2)').addEventListener('click', () => {
+    documentInput.click();
+});
+
+// Handle voice recording upload button click
+document.querySelector('.uploads button:nth-child(3)').addEventListener('click', () => {
+    voiceRecordingInput.click();
 });
 
 // Handle file selection
@@ -141,5 +215,30 @@ fileInput.addEventListener('change', (event) => {
     }
 });
 
+// Handle document file selection
+documentInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.type === 'text/plain') {
+            console.log('Attempting to upload document:', file.name);
+            uploadDocument(file);
+        } else {
+            alert('Please select a valid document file.');
+        }
+    }
+});
+
+// Handle voice recording file selection
+voiceRecordingInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.type === 'audio/mpeg' || file.type === 'audio/wav' || file.type === 'audio/ogg') {
+            console.log('Attempting to upload voice recording:', file.name);
+            uploadVoiceRecording(file);
+        } else {
+            alert('Please select a valid audio file.');
+        }
+    }
+});
 // Fetch and display text files when the page loads
 fetchAndDisplayTextFiles();
