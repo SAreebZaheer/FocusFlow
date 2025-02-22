@@ -1,0 +1,108 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #E4D1BD;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+}
+
+.container {
+    text-align: center;
+    padding: 20px; /* Original padding */
+}
+
+.tree-container {
+    position: relative;
+    height: 300px; /* Original height */
+    overflow: hidden;
+    margin-bottom: 20px; /* Original margin */
+}
+
+#tree {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 1s ease;
+    width: 200px; /* Increased width - adjust as needed */
+    max-width: 100%;
+    height: auto;
+}
+
+.timer {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 200;
+    font-size: 72px; /* Original font size */
+    margin-bottom: 20px; /* Original margin */
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+}
+
+.controls button {
+    padding: 15px 30px; /* Original padding */
+    font-size: 20px; /* Original font size */
+    background-color: #86C392;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px; /* Original margin */
+    width: 120px; /* Original width */
+    height: 50px; /* Original height */
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+    background-color: #74b88a;
+}
+
+.pomodoros {
+    margin-top: 20px; /* Original margin */
+    font-size: 20px; /* Original font size */
+}
+
+.music {
+    margin-top: 20px; /* Original margin */
+    display: flex; /* Kept for alignment */
+    align-items: center; /* Kept for alignment */
+    justify-content: center; /* Kept for alignment */
+}
+
+.music label {
+    margin-right: 10px;
+    font-size: 16px; /* Original font size */
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#musicSelect {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #86C392;
+    border-radius: 5px;
+    background-color: #E4D1BD;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") no-repeat right 10px center;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+#musicSelect option {
+    background-color: #E4D1BD;
+    color: black;
+}
+
+.select-wrapper:hover #musicSelect {
+    border-color: #74b88a;
+}
