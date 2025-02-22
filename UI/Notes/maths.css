@@ -92,7 +92,7 @@ nav a {
     z-index: 10;
 }
 
-.upload-options {
+.uploads {
     display: none;
     position: absolute;
     bottom: 70px;
@@ -104,7 +104,7 @@ nav a {
     background-color: transparent;
 }
 
-.upload-options button {
+.uploads button {
     display: block;
     /* Make each button a block element */
     width: auto;
@@ -125,6 +125,6 @@ nav a {
     /* Align text to the left */
 }
 
-.upload-options button:hover {
+.uploads button:hover {
     background-color: #e0e0e0;
 }

@@ -1,13 +1,13 @@
 const plusButton = document.getElementById('plusButton');
-const uploadOptions = document.getElementById('uploadOptions');
+const uploads = document.getElementById('uploads');
 
-uploadOptions.style.display = 'none';
+uploads.style.display = 'none';
 
 plusButton.addEventListener('click', () => {
-    uploadOptions.style.display = uploadOptions.style.display === 'block' ? 'none' : 'block';
+    uploads.style.display = uploads.style.display === 'block' ? 'none' : 'block';
 });
 
-uploadOptions.addEventListener('click', (event) => {
+uploads.addEventListener('click', (event) => {
     const clickedButton = event.target;
 
     if (clickedButton.tagName === 'BUTTON') {  // Check if a button was clicked
@@ -82,7 +82,7 @@ uploadOptions.addEventListener('click', (event) => {
 });
 
 document.body.addEventListener('click', (event) => {
-    if (!plusButton.contains(event.target) && !uploadOptions.contains(event.target)) {
-        uploadOptions.style.display = 'none';
+    if (!plusButton.contains(event.target) && !uploads.contains(event.target)) {
+        uploads.style.display = 'none';
     }
 });
