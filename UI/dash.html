@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="./dash.css">
 </head>
+
 <body>
     <header>
         <nav>
             <div class="nav-left">
-                <h1>FocusFlow</h1>
+                <img src="./mascot3.png" alt="mascot" style="height: 50px; width: 50 px; margin-right: 5px;">
+                <h1 style="align-self: center;">FocusFlow</h1>
             </div>
             <div class="nav-right">
                 <ul>
-                    <li><a href="./index.html">Dashboard</a></li>
+                    <li><a href="./dash.html">Dashboard</a></li>
                     <li><a href="./timetable.html">Schedule</a></li>
                     <li><a href="./timer.html">Timer</a></li>
                     <li><a href="./notes.html">Notes</a></li>
@@ -33,9 +36,10 @@
         </section>
 
         <!-- Section 2: Mini Calendar -->
+        <!-- Inside the "Calendar" section of dashboard.html -->
         <section id="calendar-section">
             <h2>Calendar</h2>
-            <div id="mini-calendar"></div>
+            <div id="calendar"></div>
         </section>
 
         <!-- Section 3: Timer Status -->
@@ -52,6 +56,9 @@
             <h2>Recent Notes</h2>
             <div id="recent-notes"></div>
         </section>
+
+        <img src="./mascot.png" alt="mascot"
+            style="height: 100px; width: 50 px;position: fixed; bottom: 20px; right: 20px;">
     </main>
 
     <script src="./account.js"></script>
@@ -59,5 +66,7 @@
     <script src="./timer.js"></script>
     <script src="./notes.js"></script>
     <script src="./dash.js"></script>
+    <script src="./timetable.js"></script>
 </body>
+
 </html>

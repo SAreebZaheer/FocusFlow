@@ -171,3 +171,21 @@ nav a {
     color: #333;
     line-height: 1.5;
 }
+
+.instruction-text {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    color: #86C392;
+    font-size: 0.9em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.instruction-text.hide {
+    opacity: 0;
+    pointer-events: none;
+}

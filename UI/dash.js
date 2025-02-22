@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update timer status
     updateTimerStatus();
+
+    // Initialize the calendar
+    init(); // Call the init function from timetable.js
 });
 
 // Function to load and display user profile
@@ -54,6 +57,7 @@ async function fetchCourses() {
         console.error('Error fetching courses:', error);
     }
 }
+
 // Function to fetch and display recent notes
 async function fetchRecentNotes() {
     try {

@@ -11,7 +11,7 @@ body {
 header {
     background-color: #86C392;
     color: white;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,7 +26,7 @@ nav {
 }
 
 .nav-left {
-    /* Styles for the left-aligned items */
+    display: flex;
 }
 
 .nav-right ul {
@@ -97,5 +97,5 @@ h2 {
 }
 
 #timer-status {
-    text-align: center;
+    text-align: left;
 }

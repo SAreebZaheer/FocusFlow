@@ -1,5 +1,6 @@
 const plusButton = document.getElementById('plusButton');
 const uploads = document.getElementById('uploads');
+const instructionText = document.getElementById('instructionText'); // Get the instruction text element
 
 uploads.style.display = 'none';
 
@@ -140,6 +141,8 @@ function uploadVoiceRecording(file) {
 // Handle the plus button click to show/hide upload options
 plusButton.addEventListener('click', () => {
     uploads.style.display = uploads.style.display === 'flex' ? 'none' : 'flex';
+    // Hide the instruction text when the plus button is clicked
+    instructionText.classList.add('hide');
 });
 
 // Create a hidden file input element
@@ -163,7 +166,6 @@ voiceRecordingInput.accept = '.mp3,.wav,.ogg';  // Add more extensions if needed
 voiceRecordingInput.style.display = 'none';
 document.body.appendChild(voiceRecordingInput);
 
-
 // Function to handle file upload
 function uploadFile(file) {
     const formData = new FormData();
@@ -184,8 +186,6 @@ function uploadFile(file) {
             alert('Upload failed. Please check your connection and ensure the server is running.');
         });
 }
-
-
 
 // Handle image upload button click
 document.querySelector('.uploads button').addEventListener('click', () => {
@@ -240,5 +240,6 @@ voiceRecordingInput.addEventListener('change', (event) => {
         }
     }
 });
+
 // Fetch and display text files when the page loads
 fetchAndDisplayTextFiles();
