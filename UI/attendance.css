@@ -7,8 +7,8 @@ body {
 }
 
 header {
-    background-color: #86C392;
-    color: white;
+        background-color: #86C392;
+    color: white; /* This ensures all text in the header is white by default */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -26,6 +26,7 @@ nav {
 .nav-left {
     font-size: 24px;
     font-weight: bold;
+    color: white;
 }
 
 .nav-right ul {
