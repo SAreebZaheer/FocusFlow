@@ -32,16 +32,27 @@
                 <a href="./maths.html" class="course-button">Math</a>
                 <a href="#" class="course-button">PH 101</a>
                 <a href="#" class="course-button">CH 101</a>
-                </div>
+            </div>
         </section>
 
         <div class="plus-button" id="plusButton">
             <span>+</span>
             <div class="upload-options" id="uploadOptions">
-                <button>Upload Image</button>
-                <button>Upload Document</button>
-                <button>Upload Recording</button>
-                <button>Record Live Audio</button>
+                <button id="uploadImage">Upload Image</button>
+                <button id="uploadDocument">Upload Document</button>
+                <button id="uploadRecording">Upload Recording</button>
+                <button id="recordLiveAudio">Record Live Audio</button>
+            </div>
+        </div>
+
+        <!-- Modal for file upload -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="uploadForm">
+                    <input type="file" id="fileInput" name="file">
+                    <button type="submit">Upload</button>
+                </form>
             </div>
         </div>
     </main>
