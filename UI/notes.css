@@ -70,7 +70,8 @@ nav li {
 }
 
 nav a {
-    color: white; /* Links in header should be white */
+    color: white;
+    /* Links in header should be white */
     text-decoration: none;
 }
 
@@ -88,7 +89,8 @@ main {
 }
 
 .course-grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
 }
@@ -133,22 +135,28 @@ main {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: transparent; 
+    background-color: transparent;
 }
 
 .upload-options button {
-    display: block; /* Make each button a block element */
+    display: block;
+    /* Make each button a block element */
     width: auto;
-    padding: 10px 15px; /* Increased padding */
-    margin: 5px 0; /* Vertical margin only */
+    padding: 10px 15px;
+    /* Increased padding */
+    margin: 5px 0;
+    /* Vertical margin only */
     border: none;
-    background-color: #f8f8f8; /* Light gray background for buttons */
+    background-color: #f8f8f8;
+    /* Light gray background for buttons */
     cursor: pointer;
     color: #86C392;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    border-radius: 20px; /* More rounded corners */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    /* More rounded corners */
     transition: background-color 0.3s;
-    text-align: center; /* Align text to the left */
+    text-align: center;
+    /* Align text to the left */
 }
 
 .upload-options button:hover {
