@@ -38,4 +38,4 @@ def upload_file():
         return jsonify({"error": "Invalid file type. Only images are allowed."}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='192.168.0.108', port=8000, debug=True)
