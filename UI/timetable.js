@@ -45,32 +45,39 @@ function generateCalendar() {
 
     // Add actual days
     for (let day = 1; day <= daysInMonth; day++) {
-        calendar.appendChild(createDayCell(day, false, month, year));
+        const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        calendar.appendChild(createDayCell(day, false, dateKey));
     }
 }
 
 // Create a day cell
-function createDayCell(dayNumber, isEmpty, month, year) {
+function createDayCell(dayNumber, isEmpty, dateKey) {
     const dayCell = document.createElement('div');
     dayCell.className = `day-cell ${isEmpty ? 'empty-day' : ''}`;
     
     if (!isEmpty) {
+        const dayName = getDayName(dateKey);
         dayCell.innerHTML = `
             <div class="day-number">${dayNumber}</div>
-            ${getClassEntries(dayNumber, month, year)}
+            <div class="day-name">${dayName}</div>
+            ${getClassEntries(dateKey)}
         `;
     }
     
     return dayCell;
 }
 
+// Get the day name
+function getDayName(dateStr) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const date = new Date(dateStr);
+    return days[date.getDay()];
+}
+
 // Get class entries for a specific day
-function getClassEntries(day, month, year) {
-    const yearData = timetableData[year] || {};
-    const monthData = yearData[month] || {};
-    const dayData = monthData[day] || [];
-    
-    return dayData.map(c => `
+function getClassEntries(dateKey) {
+    const classes = timetableData[dateKey] || [];
+    return classes.map(c => `
         <div class="class-entry ${c.type}">
             <div class="time">${c.time}</div>
             <div class="subject">${c.subject}</div>
@@ -87,9 +94,12 @@ function addClass() {
     const classType = document.getElementById('classType').value;
     const classTime = document.getElementById('classTime').value;
     const frequency = document.querySelector('input[name="addFrequency"]:checked').value;
-    
-    const date = prompt("Enter date (YYYY-MM-DD):");
-    if (!date) return;
+    const classDate = document.getElementById('classDate').value;
+
+    if (!classDate) {
+        alert("Please select a date.");
+        return;
+    }
 
     const classEntry = {
         time: classTime,
@@ -98,9 +108,9 @@ function addClass() {
     };
 
     if (frequency === 'once') {
-        addSingleClass(date, classEntry);
+        addSingleClass(classDate, classEntry);
     } else {
-        addWeeklyClass(date, classEntry);
+        addWeeklyClass(classDate, classEntry);
     }
 
     closeModal('addClassModal');
@@ -108,12 +118,8 @@ function addClass() {
 }
 
 function addSingleClass(date, classEntry) {
-    const [year, month, day] = date.split('-');
-    if (!timetableData[year]) timetableData[year] = {};
-    if (!timetableData[year][month]) timetableData[year][month] = {};
-    if (!timetableData[year][month][day]) timetableData[year][month][day] = [];
-    
-    timetableData[year][month][day].push(classEntry);
+    if (!timetableData[date]) timetableData[date] = [];
+    timetableData[date].push(classEntry);
     saveData();
 }
 
@@ -133,35 +139,40 @@ function openRemoveClassModal() {
 }
 
 function removeClass() {
+    const classType = document.getElementById('removeClassType').value;
+    const removeDate = document.getElementById('removeClassDate').value;
     const frequency = document.querySelector('input[name="removeFrequency"]:checked').value;
-    const date = prompt("Enter date (YYYY-MM-DD):");
-    if (!date) return;
+
+    if (!removeDate) {
+        alert("Please select a date.");
+        return;
+    }
 
     if (frequency === 'once') {
-        removeSingleClass(date);
+        removeSingleClass(removeDate, classType);
     } else {
-        removeWeeklyClass(date);
+        removeWeeklyClass(removeDate, classType);
     }
 
     closeModal('removeClassModal');
     generateCalendar();
 }
 
-function removeSingleClass(date) {
-    const [year, month, day] = date.split('-');
-    if (timetableData[year]?.[month]?.[day]) {
-        delete timetableData[year][month][day];
+function removeSingleClass(date, classType) {
+    if (timetableData[date]) {
+        timetableData[date] = timetableData[date].filter(c => c.type !== classType);
+        if (timetableData[date].length === 0) delete timetableData[date];
         saveData();
     }
 }
 
-function removeWeeklyClass(startDate) {
+function removeWeeklyClass(startDate, classType) {
     const start = new Date(startDate);
     const end = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate());
 
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 7)) {
         const dateStr = d.toISOString().split('T')[0];
-        removeSingleClass(dateStr);
+        removeSingleClass(dateStr, classType);
     }
 }
 

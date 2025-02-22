@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Tracker</title>
-    <link rel="stylesheet" href="./attendance.css">
+    <link rel="stylesheet" href="attendance.css">
 </head>
-
 <body>
     <header>
         <nav>
@@ -26,9 +24,8 @@
             </div>
         </nav>
     </header>
-    <div id="app">
-        <h1 class = "head1">Study Attendance Tracker</h1>
 
+    <div class="container">
         <!-- Registration Section -->
         <div class="card" id="registration">
             <h2>Welcome! 👋</h2>
@@ -37,36 +34,44 @@
 
         <!-- Main Interface -->
         <div id="main-interface" style="display: none;">
-            <!-- Month/Year Selection -->
-            <div class="date-selector">
-                <select id="month-select" onchange="updateCalendar()"></select>
-                <select id="year-select" onchange="updateCalendar()"></select>
+            <h1>Attendance Tracker</h1>
+            
+            <!-- Course Management -->
+            <div class="controls">
+                <button onclick="openAddCourseModal()">➕ Add Course</button>
             </div>
 
-            <!-- Course Section -->
-            <div class="card course-card">
-                <h2>Mathematics 101</h2>
+            <!-- Date Selection -->
+            <div class="date-selector">
+                <select id="monthSelect" class="dropdown" onchange="generateCalendar()"></select>
+                <select id="yearSelect" class="dropdown" onchange="generateCalendar()"></select>
+            </div>
 
-                <!-- Progress Section -->
-                <div class="progress-section">
-                    <div class="progress-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%"></div>
-                        </div>
-                        <div class="progress-controls">
-                            <button class="control-btn minus-btn" onclick="adjustProgress(-5)">-</button>
-                            <button class="control-btn plus-btn" onclick="adjustProgress(5)">+</button>
-                        </div>
+            <!-- Course List -->
+            <div class="course-list" id="courseList"></div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar-grid" id="calendar"></div>
+
+            <!-- Add Course Modal -->
+            <div id="addCourseModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal('addCourseModal')">&times;</span>
+                    <h2>Add Course</h2>
+                    <div class="form-group">
+                        <label for="courseName">Course Name:</label>
+                        <input type="text" id="courseName" placeholder="e.g., Mathematics" required>
                     </div>
+                    <div class="form-group">
+                        <label for="totalClasses">Total Classes:</label>
+                        <input type="number" id="totalClasses" min="1" required>
+                    </div>
+                    <button class="submit-btn" onclick="addCourse()">Add Course</button>
                 </div>
-
-                <!-- Calendar -->
-                <div class="calendar" id="calendar"></div>
             </div>
         </div>
     </div>
 
     <script src="attendance.js"></script>
 </body>
-
 </html>
