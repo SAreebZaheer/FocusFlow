@@ -8,7 +8,6 @@ function init() {
         showMainInterface();
     }
     renderCourses();
-    saveCoursesToFile();
 }
 
 // Registration system
@@ -65,20 +64,28 @@ function addCourse() {
 
     saveData();
     renderCourses();
-    saveCoursesToFile();
+    saveCoursesToServer();
     closeModal('addCourseModal');
 }
 
-// Save courses to a text file
-function saveCoursesToFile() {
-    const coursesText = courses.map(course => `${course.name}: ${course.attended}/${course.totalClasses}`).join('\n');
-    const blob = new Blob([coursesText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'courses.txt';
-    a.click();
-    URL.revokeObjectURL(url);
+// Save courses to the Flask server
+function saveCoursesToServer() {
+    const courseNames = courses.map(course => `${course.name}: ${course.attended}/${course.totalClasses}`);
+
+    fetch('http://192.168.0.108:8000/saveCourses', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courses: courseNames }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+    })
+    .catch(error => {
+        console.error('Error saving courses:', error);
+    });
 }
 
 // Update attendance
@@ -89,7 +96,7 @@ function updateAttendance(index, change) {
     if (course.attended > course.totalClasses) course.attended = course.totalClasses;
     saveData();
     renderCourses();
-    saveCoursesToFile();
+    saveCoursesToServer();
 }
 
 // Utility functions

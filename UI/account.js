@@ -27,14 +27,18 @@ document.getElementById('profilePictureInput').addEventListener('change', functi
     }
 });
 
-// Fetch and display courses from courses.txt
+// Fetch and display courses from the Flask server
 function fetchCourses() {
-    fetch('courses.txt')
-        .then(response => response.text())
+    fetch('http://192.168.0.108:8000/getCourses')
+        .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+
             const courseList = document.getElementById('courseList');
-            const courses = data.split('\n').filter(line => line.trim() !== '');
-            courseList.innerHTML = courses.map(course => `
+            courseList.innerHTML = data.courses.map(course => `
                 <div class="course-card">
                     <h3>${course.split(':')[0]}</h3>
                     <div class="course-info">
