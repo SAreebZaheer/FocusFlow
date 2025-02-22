@@ -44,7 +44,7 @@ uploadOptions.addEventListener('click', (event) => {
 
                     console.log("FormData:", formData); // Log FormData for debugging
 
-                    fetch('/upload', {
+                    fetch('http://192.168.0.108:8000/upload', {  // Ensure the correct server URL
                         method: 'POST',
                         body: formData
                     })
