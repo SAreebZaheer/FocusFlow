@@ -28,7 +28,7 @@ function showMainInterface() {
 function renderCourses() {
     const courseList = document.getElementById('courseList');
     courseList.innerHTML = courses.map((course, index) => `
-        <div class="course-card">
+        <div class="course-card" data-attendance="Attended: ${course.attended} / ${course.totalClasses}">
             <h3>${course.name}</h3>
             <div class="progress-bar">
                 <div class="progress-fill" style="width: ${(course.attended / course.totalClasses) * 100}%"></div>
@@ -64,28 +64,7 @@ function addCourse() {
 
     saveData();
     renderCourses();
-    saveCoursesToServer();
     closeModal('addCourseModal');
-}
-
-// Save courses to the Flask server
-function saveCoursesToServer() {
-    const courseNames = courses.map(course => `${course.name}: ${course.attended}/${course.totalClasses}`);
-
-    fetch('http://192.168.0.108:8000/saveCourses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ courses: courseNames }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.message);
-    })
-    .catch(error => {
-        console.error('Error saving courses:', error);
-    });
 }
 
 // Update attendance
@@ -96,7 +75,6 @@ function updateAttendance(index, change) {
     if (course.attended > course.totalClasses) course.attended = course.totalClasses;
     saveData();
     renderCourses();
-    saveCoursesToServer();
 }
 
 // Utility functions
