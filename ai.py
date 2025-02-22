@@ -13,6 +13,7 @@ def getText(filename):
     
     # Open the image
     image = PIL.Image.open(filename)
+
     
     # Generate content using the model
     response = client.models.generate_content(
@@ -20,11 +21,14 @@ def getText(filename):
         contents=["What is written in the image? Your response should only contain the contents of the image and nothing else.", image]
     )
     
-    # Format the datetime to be filename-friendly
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    
+    heading = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=["Give an appropriate heading for the text below. Your response should only contain the heading and there should be no spaces or special characters involved. It can be in upper or lower case as per grammar rules: " + response.text]
+    )
+    # Remove any leading/trailing whitespace and newline characters from the heading
+    fheading = heading.text.strip()
     # Construct the full path to the text file
-    text_name = os.path.join("./UI/notes/", f"{timestamp}.txt")
+    text_name = os.path.join("./UI/notes/", fheading)
     
     # Create and write to the text file
     with open(text_name, "w") as f:
@@ -47,7 +51,7 @@ def summarise(filename):
     heading = response.text.strip()
 
     # Construct the path for the summary file
-    text_name = os.path.join("./UI/summaries/", heading + ".txt")
+    text_name = os.path.join("./UI/summaries/", heading + "_summarised.txt")
 
     # Generate a summary of the text
     response = client.models.generate_content(

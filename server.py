@@ -175,5 +175,20 @@ def get_profile():
 
     return jsonify(profile), 200
 
+@app.route('/get-text-files', methods=['GET'])
+def get_text_files():
+    text_files = []
+    notes_image_folder = app.config['NOTES_IMAGE_FOLDER']
+    
+    # Assuming text files are stored in the same directory as images
+    for filename in os.listdir(notes_image_folder):
+        if filename.endswith('.txt'):
+            text_files.append({
+                "name": filename,
+                "path": os.path.join(notes_image_folder, filename)
+            })
+    
+    return jsonify(text_files), 200
+
 if __name__ == '__main__':
-    app.run(host='192.168.0.108', port=8000, debug=True)
+    app.run(host='192.168.0.10', port=8000, debug=True)

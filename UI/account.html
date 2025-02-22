@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account - FocusFlow</title>
     <link rel="stylesheet" href="./account.css">
 </head>
+
 <body>
     <header>
         <nav>
@@ -18,67 +20,62 @@
                     <li><a href="./timetable.html">Schedule</a></li>
                     <li><a href="tasks.html">Tasks</a></li>
                     <li><a href="./notes.html">Notes</a></li>
-                    <li><a href="./attendance.html">Attendance</a></li>
+                    <li><a href="./course.html">Courses</a></li>
                     <li><a href="./account.html">Account</a></li>
                 </ul>
             </div>
         </nav>
     </header>
+    <div style="align-items: center;  margin: 100px">
+        <div class="dashboard-container">
+            <div class="dashboard-panel">
+                <h2 class="panel-title">Profile Information</h2>
+                <form id="profile-form">
+                    <label for="profile-photo">Profile Photo:</label>
+                    <input type="file" id="profile-photo" accept="image/*">
 
-    <div class="dashboard-container">
-        <div class="dashboard-panel">
-            <h2 class="panel-title">Profile Information</h2>
-            <form id="profile-form">
-                <label for="profile-photo">Profile Photo:</label>
-                <input type="file" id="profile-photo" accept="image/*">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
 
-                <label for="name">Name:</label>
-                <input type="text" id="name" placeholder="Enter your name" required>
-
-                <label for="level">Level of Study:</label>
-                <select id="level" required>
-                    <option value="high-school">High School</option>
-                    <option value="university">University</option>
-                </select>
-
-                <div id="semester-group" style="display: none;">
-                    <label for="semester">Semester:</label>
-                    <select id="semester">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
+                    <label for="level">Level of Study:</label>
+                    <select id="level" required>
+                        <option value="high-school">High School</option>
+                        <option value="university">University</option>
                     </select>
+
+                    <div id="semester-group" style="display: none;">
+                        <label for="semester">Semester:</label>
+                        <select id="semester">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Save Profile</button>
+                </form>
+            </div>
+
+            <div class="dashboard-panel">
+                <h2 class="panel-title">Your Profile</h2>
+                <div id="profile-display">
+                    <p><strong>Name:</strong> <span id="display-name"></span></p>
+                    <p><strong>Level of Study:</strong> <span id="display-level"></span></p>
+                    <p><strong>Semester:</strong> <span id="display-semester"></span></p>
+                    <img id="display-photo" src="" alt="Profile Photo" style="max-width: 100px; display: none;">
                 </div>
-
-                <button type="submit">Save Profile</button>
-            </form>
-        </div>
-
-        <div class="dashboard-panel">
-            <h2 class="panel-title">Your Profile</h2>
-            <div id="profile-display">
-                <p><strong>Name:</strong> <span id="display-name"></span></p>
-                <p><strong>Level of Study:</strong> <span id="display-level"></span></p>
-                <p><strong>Semester:</strong> <span id="display-semester"></span></p>
-                <img id="display-photo" src="" alt="Profile Photo" style="max-width: 100px; display: none;">
             </div>
         </div>
+        <footer>
+            &copy; 2023 FocusFlow
+        </footer>
 
-        <div class="dashboard-panel">
-            <h2 class="panel-title">Your Courses</h2>
-            <ul id="course-list" class="task-list"></ul>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2023 FocusFlow
-    </footer>
-
-    <script src="./account.js"></script>
+        <script src="./account.js"></script>
 </body>
+
 </html>

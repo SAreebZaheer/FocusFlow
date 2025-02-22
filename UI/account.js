@@ -62,40 +62,6 @@ async function loadProfile() {
     }
 }
 
-// Function to load and display courses
-async function loadCourses() {
-    try {
-        const response = await fetch("/get-courses");
-        const courses = await response.json();
-
-        const courseList = document.getElementById("course-list");
-        courseList.innerHTML = ""; // Clear existing list
-
-        courses.forEach((course) => {
-            const li = document.createElement("li");
-            li.textContent = course;
-
-            const removeButton = document.createElement("button");
-            removeButton.textContent = "Remove";
-            removeButton.addEventListener("click", async () => {
-                await fetch("/remove-course", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ course }),
-                });
-                loadCourses(); // Refresh the list
-            });
-
-            li.appendChild(removeButton);
-            courseList.appendChild(li);
-        });
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
 
 // Load profile and courses when the page loads
 loadProfile();
-loadCourses();
