@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Info</title>
-    <link rel="stylesheet" href="account.css">
+    <title>Account - FocusFlow</title>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
     <header>
@@ -19,40 +19,61 @@
                     <li><a href="tasks.html">Tasks</a></li>
                     <li><a href="./notes.html">Notes</a></li>
                     <li><a href="./attendance.html">Attendance</a></li>
-                    <li><a href="./account.html">Account</a></li>
+                    <li><a href="./account.html">Settings</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <h1>Account Information</h1>
+    <div class="dashboard-container">
+        <div class="dashboard-panel">
+            <h2 class="panel-title">Profile Information</h2>
+            <form id="profile-form">
+                <label for="profile-photo">Profile Photo:</label>
+                <input type="file" id="profile-photo" accept="image/*">
 
-        <!-- User Info Section -->
-        <div class="user-info">
-            <div class="profile-picture">
-                <img id="profilePicture" src="https://via.placeholder.com/150" alt="Profile Picture">
-                <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
-                <button onclick="document.getElementById('profilePictureInput').click()">Upload Profile Picture</button>
-            </div>
-            <div class="user-details">
-                <h2 id="userName">John Doe</h2>
-                <p id="userEmail">Email: john.doe@example.com</p>
-            </div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+
+                <label for="level">Level of Study:</label>
+                <select id="level" required>
+                    <option value="high-school">High School</option>
+                    <option value="university">University</option>
+                </select>
+
+                <div id="semester-group" style="display: none;">
+                    <label for="semester">Semester:</label>
+                    <select id="semester">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+
+                <button type="submit">Save Profile</button>
+            </form>
         </div>
 
-        <!-- Course Info Section -->
-        <div class="course-info">
-            <h2>Your Courses</h2>
-            <div id="courseList"></div> <!-- Courses will be dynamically populated here -->
-        </div>
-
-        <!-- Logout Button -->
-        <div class="logout-section">
-            <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="dashboard-panel">
+            <h2 class="panel-title">Your Profile</h2>
+            <div id="profile-display">
+                <p><strong>Name:</strong> <span id="display-name"></span></p>
+                <p><strong>Level of Study:</strong> <span id="display-level"></span></p>
+                <p><strong>Semester:</strong> <span id="display-semester"></span></p>
+                <img id="display-photo" src="" alt="Profile Photo" style="max-width: 100px; display: none;">
+            </div>
         </div>
     </div>
 
-    <script src="account.js"></script>
+    <footer>
+        &copy; 2023 FocusFlow
+    </footer>
+
+    <script src="./account.js"></script>
 </body>
 </html>

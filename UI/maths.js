@@ -1,88 +1,82 @@
 const plusButton = document.getElementById('plusButton');
-const uploads = document.getElementById('uploads');
+const uploadOptions = document.getElementById('uploads');
 
-uploads.style.display = 'none';
+uploadOptions.style.display = 'none';
+
+// Define server URL
+const SERVER_URL = 'http://192.168.0.108:8000';
 
 plusButton.addEventListener('click', () => {
-    uploads.style.display = uploads.style.display === 'block' ? 'none' : 'block';
+    uploadOptions.style.display = uploadOptions.style.display === 'block' ? 'none' : 'block';
 });
 
-uploads.addEventListener('click', (event) => {
-    const clickedButton = event.target;
+// Create a hidden file input element
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
 
-    if (clickedButton.tagName === 'BUTTON') {  // Check if a button was clicked
-        const buttonText = clickedButton.textContent;
+// Function to handle file upload
+function uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
 
-        let inputElement;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${SERVER_URL}/upload`, true);
 
-        switch (buttonText) {
-            case 'Upload Image':
-                inputElement = document.createElement('input');
-                inputElement.type = 'file';
-                inputElement.accept = 'image/*'; // Accept only image files
-                break;
-            case 'Upload Document':
-                inputElement = document.createElement('input');
-                inputElement.type = 'file';
-                inputElement.accept = '.pdf, .docx, .txt, .odt'; // Example document types
-                break;
-            case 'Upload Recording':
-                inputElement = document.createElement('input');
-                inputElement.type = 'file';
-                inputElement.accept = 'audio/*'; // Accept audio files
-                break;
-            // case 'Record Live Audio': // For live recording, you'll need more complex logic
-            //     // Implement live recording functionality here (using the Web Audio API)
-            //     break;
-            default:
-                return; // Do nothing if it's not a relevant button
+    xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            console.log(`Upload progress: ${percentComplete}%`);
         }
+    };
 
-        if (inputElement) {
-            inputElement.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    // Handle the selected file
-                    console.log('Selected file:', file);
-                    // Here you can implement the upload logic (e.g., using fetch or XMLHttpRequest)
-                    // or display a preview of the file, etc.
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                      //  e.target.result will contain the contents of the file
-                      if (buttonText === 'Upload Image'){
-                        let img = document.createElement('img');
-                        img.src = e.target.result;
-                        document.body.appendChild(img);
-                      }
-                      else if (buttonText === 'Upload Document'){
-                        let text = document.createElement('p');
-                        text.textContent = e.target.result;
-                        document.body.appendChild(text);
-                      }
-                      else if (buttonText === 'Upload Recording'){
-                        let audio = document.createElement('audio');
-                        audio.src = e.target.result;
-                        audio.controls = true;
-                        document.body.appendChild(audio);
-                      }
-                    }
-                    if (buttonText === 'Upload Image' || buttonText === 'Upload Document'){
-                        reader.readAsText(file);
-                    }
-                    else if (buttonText === 'Upload Recording'){
-                        reader.readAsDataURL(file);
-                    }
-
-                }
-            });
-            inputElement.click(); // Programmatically trigger the file selection dialog
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            try {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Upload success:', response);
+                alert('File uploaded successfully!');
+            } catch (error) {
+                console.error('Error parsing response:', error);
+                alert('Upload completed but received unexpected response');
+            }
+        } else {
+            console.error('Upload failed with status:', xhr.status);
+            console.error('Response:', xhr.responseText);
+            alert(`Upload failed with status ${xhr.status}. Please try again.`);
         }
+    };
+
+    xhr.onerror = function(e) {
+        console.error('Upload error:', e);
+        alert('Upload failed. Please check your connection and ensure the server is running.');
+    };
+
+    // Add better error handling
+    try {
+        xhr.send(formData);
+    } catch (error) {
+        console.error('Error sending request:', error);
+        alert('Error sending request. Please try again.');
     }
+}
+
+// Handle image upload button click
+document.getElementById('uploadImage').addEventListener('click', () => {
+    fileInput.click();
 });
 
-document.body.addEventListener('click', (event) => {
-    if (!plusButton.contains(event.target) && !uploadOptions.contains(event.target)) {
-        uploadOptions.style.display = 'none';
+// Handle file selection
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.type.startsWith('image/')) {
+            console.log('Attempting to upload file:', file.name);
+            uploadFile(file);
+        } else {
+            alert('Please select an image file.');
+        }
     }
 });

@@ -1,62 +1,68 @@
-// Fetch user data from localStorage
-const user = JSON.parse(localStorage.getItem('user')) || {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    profilePicture: "https://via.placeholder.com/150"
-};
+document.getElementById("course-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const courseName = document.getElementById("course-name").value.trim();
 
-// Populate user info
-document.getElementById('userName').textContent = user.name;
-document.getElementById('userEmail').textContent = `Email: ${user.email}`;
-document.getElementById('profilePicture').src = user.profilePicture;
+    if (!courseName) {
+        alert("Please enter a course name.");
+        return;
+    }
 
-// Handle profile picture upload
-document.getElementById('profilePictureInput').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const profilePicture = document.getElementById('profilePicture');
-            profilePicture.src = e.target.result;
+    // Send course data to the server
+    try {
+        const response = await fetch("/add-course", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ course: courseName }),
+        });
 
-            // Save the new profile picture to localStorage
-            user.profilePicture = e.target.result;
-            localStorage.setItem('user', JSON.stringify(user));
-        };
-        reader.readAsDataURL(file);
+        if (response.ok) {
+            // Refresh the course list
+            loadCourses();
+            document.getElementById("course-name").value = ""; // Clear input
+        } else {
+            alert("Failed to add course.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while adding the course.");
     }
 });
 
-// Fetch and display courses from the Flask server
-function fetchCourses() {
-    fetch('http://192.168.0.108:8000/getCourses')
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                return;
-            }
+// Function to load and display courses
+async function loadCourses() {
+    try {
+        const response = await fetch("/get-courses");
+        const courses = await response.json();
 
-            const courseList = document.getElementById('courseList');
-            courseList.innerHTML = data.courses.map(course => `
-                <div class="course-card">
-                    <h3>${course.split(':')[0]}</h3>
-                    <div class="course-info">
-                        ${course.split(':')[1]}
-                    </div>
-                </div>
-            `).join('');
-        })
-        .catch(error => console.error('Error fetching courses:', error));
-}
+        const courseList = document.getElementById("course-list");
+        courseList.innerHTML = ""; // Clear existing list
 
-// Logout functionality
-function logout() {
-    if (confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem('user');
-        window.location.href = "login.html"; // Redirect to login page
+        courses.forEach((course) => {
+            const li = document.createElement("li");
+            li.textContent = course;
+
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", async () => {
+                await fetch("/remove-course", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ course }),
+                });
+                loadCourses(); // Refresh the list
+            });
+
+            li.appendChild(removeButton);
+            courseList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error:", error);
     }
 }
 
-// Initialize the page
-fetchCourses();
+// Load courses when the page loads
+loadCourses();
