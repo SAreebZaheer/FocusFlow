@@ -11,7 +11,7 @@ body {
 header {
     background-color: #86C392;
     color: white;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,7 +26,7 @@ nav {
 }
 
 .nav-left {
-    /* Styles for the left-aligned items */
+    display: flex;
 }
 
 .nav-right ul {
@@ -57,6 +57,7 @@ header h1 {
     display: block; /* Make sure the h1 is visible */
     margin: 0; /* remove default margin */
 }
+
 
 .container {
     text-align: center;
