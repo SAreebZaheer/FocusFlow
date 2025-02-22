@@ -17,13 +17,11 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self, content_type):
         self.send_response(200)
         self.send_header('Content-Type', content_type)
-        self.send_header('Access-Control-Allow-Origin', '*')  # Allow from any origin (for development)
-        # Or, for production, specify the allowed origin:
-        # self.send_header('Access-Control-Allow-Origin', 'http://yourdomain.com')  # Replace with your domain
-        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') # Allow POST requests
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type') # Allow Content-Type header
+        self.send_header('Access-Control-Allow-Origin', '*')  # For development.  Use your domain in production!
+        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
-
+        
     def getPath(self):
         if self.path == '/':
             content_path = path.join(my_html_folder_path, my_home_page_file_path)
@@ -128,6 +126,11 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         else:
             self.send_error(404, "Not Found")
+            
+    def do_OPTIONS(self):  # Handle preflight OPTIONS request
+        self._set_headers('application/json') # Use _set_headers to set CORS headers
+        self.send_response(200) # Respond with 200 OK
+        return # Important: Stop processing after OPTIONS request
 
 
 my_handler = MyHttpRequestHandler
