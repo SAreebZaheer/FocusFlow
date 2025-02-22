@@ -39,6 +39,7 @@
             <!-- Course Management -->
             <div class="controls">
                 <button onclick="openAddCourseModal()">➕ Add Course</button>
+                <button class="remove-btn" onclick="openRemoveCourseModal()">🗑️ Remove Course</button>
             </div>
 
             <!-- Course List -->
@@ -58,6 +59,18 @@
                         <input type="number" id="totalClasses" min="1" required>
                     </div>
                     <button class="submit-btn" onclick="addCourse()">Add Course</button>
+                </div>
+            </div>
+
+            <!-- Remove Course Modal -->
+            <div id="removeCourseModal" class="modal">
+                <div class="modal-content">
+                    <h2>Remove Course</h2>
+                    <p>Are you sure you want to remove this course?</p>
+                    <div class="modal-buttons">
+                        <button class="confirm" onclick="confirmRemoveCourse()">Yes, Remove</button>
+                        <button class="cancel" onclick="closeModal('removeCourseModal')">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

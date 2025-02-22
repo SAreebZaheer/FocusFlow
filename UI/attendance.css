@@ -24,7 +24,8 @@ nav {
 }
 
 .nav-left {
-    /* Styles for the left-aligned items */
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .nav-right ul {
@@ -82,6 +83,14 @@ h1 {
     border: none;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.controls button.remove-btn {
+    background: #D19494;
+}
+
+.controls button.remove-btn:hover {
+    background: #b87c7c;
 }
 
 .course-list {
@@ -160,15 +169,6 @@ h1 {
     background: #75a87f;
 }
 
-.remove-btn {
-    background: #D19494;
-    margin-top: 10px;
-}
-
-.remove-btn:hover {
-    background: #b87c7c;
-}
-
 .modal {
     display: none;
     position: fixed;
@@ -186,11 +186,45 @@ h1 {
     padding: 20px;
     border-radius: 10px;
     width: 300px;
+    text-align: center;
 }
 
 .modal-content h2 {
     margin-top: 0;
     color: #86C392;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-buttons button.confirm {
+    background: #D19494;
+    color: white;
+}
+
+.modal-buttons button.confirm:hover {
+    background: #b87c7c;
+}
+
+.modal-buttons button.cancel {
+    background: #86C392;
+    color: white;
+}
+
+.modal-buttons button.cancel:hover {
+    background: #75a87f;
 }
 
 .close {

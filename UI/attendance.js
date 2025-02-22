@@ -1,6 +1,7 @@
 // Initialize variables
 let registrationDate = localStorage.getItem('registrationDate');
 let courses = JSON.parse(localStorage.getItem('courses')) || [];
+let courseToRemove = null;
 
 // Initialize the app
 function init() {
@@ -41,7 +42,6 @@ function renderCourses() {
             <div class="course-info">
                 Attended: ${course.attended} / ${course.totalClasses}
             </div>
-            <button class="remove-btn" onclick="removeCourse(${index})">Remove Course</button>
         </div>
     `).join('');
 }
@@ -72,11 +72,17 @@ function addCourse() {
 }
 
 // Remove course functionality
-function removeCourse(index) {
-    if (confirm("Are you sure you want to remove this course?")) {
-        courses.splice(index, 1);
+function openRemoveCourseModal() {
+    document.getElementById('removeCourseModal').style.display = 'flex';
+}
+
+function confirmRemoveCourse() {
+    if (courseToRemove !== null) {
+        courses.splice(courseToRemove, 1);
         saveData();
         renderCourses();
+        closeModal('removeCourseModal');
+        courseToRemove = null;
     }
 }
 
