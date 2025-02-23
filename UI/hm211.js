@@ -1,11 +1,12 @@
 const plusButton = document.getElementById('plusButton');
 const uploads = document.getElementById('uploads');
 const instructionText = document.getElementById('instructionText'); // Get the instruction text element
+const processingMessage = document.getElementById('processingMessage'); // Get the processing message element
 
 uploads.style.display = 'none';
 
 // Define server URL
-const SERVER_URL = 'http://192.168.0.106:8000';
+const SERVER_URL = 'http://192.168.0.108:8000';
 
 // Function to fetch and display text files
 function fetchAndDisplayTextFiles() {
@@ -28,8 +29,11 @@ function fetchAndDisplayTextFiles() {
                 fileBlock.style.textAlign = 'center';
                 fileBlock.style.width = '200px';
 
+                // Remove the .txt extension from the filename
+                const displayName = filename.replace(/\.txt$/, '');
+
                 const fileName = document.createElement('h3');
-                fileName.textContent = filename;
+                fileName.textContent = displayName; // Use the display name without .txt
                 fileName.style.margin = '0';
 
                 fileBlock.appendChild(fileName);
@@ -62,7 +66,6 @@ function fetchAndDisplayTextFiles() {
             console.error('Error fetching text files:', error);
         });
 }
-
 // Function to fetch and display the content of a text file
 function fetchTextFileContent(filename, container) {
     fetch(`${SERVER_URL}/get-text-file/${filename}`)
@@ -96,6 +99,9 @@ function uploadDocument(file) {
     const formData = new FormData();
     formData.append('file', file);
 
+    // Show the processing message
+    processingMessage.style.display = 'block';
+
     fetch(`${SERVER_URL}/upload-document`, {
         method: 'POST',
         body: formData
@@ -112,6 +118,10 @@ function uploadDocument(file) {
         .catch(error => {
             console.error('Document upload error:', error);
             alert(`Document upload failed: ${error.message}`);
+        })
+        .finally(() => {
+            // Hide the processing message
+            processingMessage.style.display = 'none';
         });
 }
 
@@ -119,6 +129,9 @@ function uploadDocument(file) {
 function uploadVoiceRecording(file) {
     const formData = new FormData();
     formData.append('file', file);
+
+    // Show the processing message
+    processingMessage.style.display = 'block';
 
     fetch(`${SERVER_URL}/upload-voice-recording`, {
         method: 'POST',
@@ -135,6 +148,10 @@ function uploadVoiceRecording(file) {
         .catch(error => {
             console.error('Voice recording upload error:', error);
             alert(`Voice recording upload failed: ${error.message}`);
+        })
+        .finally(() => {
+            // Hide the processing message
+            processingMessage.style.display = 'none';
         });
 }
 
@@ -171,6 +188,9 @@ function uploadFile(file) {
     const formData = new FormData();
     formData.append('file', file);
 
+    // Show the processing message
+    processingMessage.style.display = 'block';
+
     fetch(`${SERVER_URL}/upload`, {
         method: 'POST',
         body: formData
@@ -184,6 +204,10 @@ function uploadFile(file) {
         .catch(error => {
             console.error('Upload error:', error);
             alert('Upload failed. Please check your connection and ensure the server is running.');
+        })
+        .finally(() => {
+            // Hide the processing message
+            processingMessage.style.display = 'none';
         });
 }
 

@@ -58,7 +58,6 @@ header h1 {
     margin: 0; /* remove default margin */
 }
 
-
 nav ul {
     list-style: none;
     padding: 0;
@@ -140,22 +139,29 @@ nav a {
 }
 
 .file-block {
-    background-color: #f0f0f0;
+    background-color: #E4D1BD;
     border-radius: 10px;
-    padding: 15px;
+    padding: 0px;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s;
+    width: 150%; /* Ensure it takes full width */
+    margin: 0 auto; /* Center the block */
 }
 
 .file-block:hover {
-    background-color: #e0e0e0;
+    background-color: #E4D1BD;
 }
 
 .file-block h3 {
     margin: 10px;
     color: #86C392;
     font-size: 1.2em;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for long filenames */
+    width: auto;
+    background-color: white;
 }
 
 .text-content-container {
@@ -189,4 +195,21 @@ nav a {
 .instruction-text.hide {
     opacity: 0;
     pointer-events: none;
+}
+
+.processing-message {
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Ensure exact centering */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px 30px; /* Larger padding */
+    border-radius: 10px; /* Rounded corners */
+    color: #86C392;
+    font-size: 1.2em; /* Larger font size */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+    display: none; /* Initially hidden */
+    transition: opacity 0.3s ease;
+    z-index: 1000; /* Ensure it appears above other elements */
+    text-align: center; /* Center the text */
 }

@@ -273,4 +273,4 @@ def upload_voice_recording():
         return jsonify({"error": "Invalid file type. Only audio files are allowed."}), 400
 
 if __name__ == '__main__':
-    app.run(host='192.168.0.106', port=8000, debug=True)
+    app.run(host='192.168.0.108', port=8000, debug=True)
