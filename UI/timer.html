@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Timer</title>
+    <link rel="stylesheet" href="timer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-left">
+                <img src="./mascot3.png" alt="mascot" style="height: 50px; width: 50 px; margin-right: 5px;">
+                <h1 style="align-self: center;">FocusFlow</h1>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="./dash.html">Dashboard</a></li>
+                    <li><a href="./timetable.html">Schedule</a></li>
+                    <li><a href="./timer.html">Timer</a></li>
+                    <li><a href="./notes.html">Notes</a></li>
+                    <li><a href="./course.html">Courses</a></li>
+                    <li><a href="./account.html">Account</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="tree-container">
+            <img id="tree" src="tree1.jpg" alt="Growing Tree">
+        </div>
+        <div class="timer">
+            <div id="countdown">25.00</div>
+        </div>
+        <div class="controls">
+            <button id="startButton">Start</button>
+        </div>
+        <div class="pomodoros">
+            <span id="pomodorosCount" class="faded">0</span>
+            <span id="pomodoroHashes"></span>
+        </div>
+        <div class="music">
+            <label for="musicSelect">Lofi Music:</label>
+            <div class="select-wrapper">
+                <select id="musicSelect">
+                    <option value="">None</option>
+                    <option value="lofi1.mp3">Track 1</option>
+                    <option value="lofi2.mp3">Track 2</option>
+                    <option value="lofi3.mp3">Track 3</option>
+                </select>
+            </div>
+        </div>
+        <audio id="lofiMusic" src="lofi1.mp3" loop></audio>
+    </div>
+    <img src="./mascot.png" alt="mascot"
+        style="height: 100px; width: 50 px;position: fixed; bottom: 20px; right: 20px;">
+    <img src="./timer1.png" alt="mascot"
+        style="height: 200px; width: 50 px;position: fixed; top: 200px; left: 100px;">
+    <script src="timer.js"></script>
+</body>
+
+</html>

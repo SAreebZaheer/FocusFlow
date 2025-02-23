@@ -1,0 +1,253 @@
+/* General body styles */
+body {
+    padding-top: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    background-color: #E4D1BD;
+    font-family: 'Roboto', sans-serif; /* Updated font */
+    margin: 0;
+    padding: 20px;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+/* Container styles */
+.container {
+    width: 100%;
+    max-width: 1200px; /* Limit the width of the container */
+    display: flex;
+    align-items: flex-start; /* Use flexbox for layout */
+}
+
+/* Main content styles */
+.main-content {
+    flex: 2; /* Take up more space */
+    margin-right: 20px; /* Space between main content and side panel */
+}
+
+/* Side panel styles */
+.side-panel {
+    flex: 1; 
+    background-color: #ffffff;
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    /* height: fit-content; */
+    height: 400px;
+    margin-top: 100px;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #86C392; }
+
+/* Heading styles */
+h2 {
+    font-size: 1.5em;
+    color: #333; /* Darker color for headings */
+    margin-bottom: 10px;
+}
+
+/* Semester selection styles */
+.semester-selection,
+.user-list,
+.notes-section {
+    margin-bottom: 20px;
+}
+
+#semesterSelect {
+    /* Reset default styles */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #E4D1BD; /* White background */
+    border: 1px solid #86C392; /* Green border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the select */
+    padding-right: 50px; /* Space for the arrow */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    cursor: pointer; /* Indicate it's clickable */
+    /* Custom arrow */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath fill='rgba(134, 195, 146, 1)' d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+/* Hover and focus effects */
+#semesterSelect:hover {
+    border-color: #74b88a; 
+}
+
+#semesterSelect:focus {
+    outline: none; /* Remove default outline */
+    border-color: #74b88a; /* Darker green on focus */
+    box-shadow: 0 0 5px rgba(134, 195, 146, 0.3); /* Subtle shadow on focus */
+}
+/*#semesterSelect > option { /* Direct child of select 
+    padding: 8px 10px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #E4D1BD; /* White background for options */
+    /*color: #333; /* Dark text for options 
+    border-radius: 5px;
+} */
+
+#semesterSelect option {
+    padding: 8px 10px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #E4D1BD; /* White background for options */
+    color: #333; /* Dark text for options */
+    border-radius: 5px;
+}
+
+#semesterSelect option:hover {
+    background-color: #86C392; /* Green background on hover */
+    color: #fff; /* White text for better contrast */
+}
+
+/* Style the currently selected option */
+#semesterSelect option:checked {
+    background-color: #e0e0e0; /* Highlight selected option */
+}
+
+
+/* Style the currently selected option */
+#semesterSelect option:checked {
+    background-color: #e0e0e0;
+}
+
+
+
+
+/* User checkbox styles */
+#userCheckboxes {
+    margin-bottom: 10px;
+}
+
+.user-entry {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align checkbox and label */
+    margin-bottom: 5px; /* Space between user entries */
+}
+
+.user-checkbox {
+    margin-right: 5px; /* Space between checkbox and label */
+}
+
+/* Note input styles */
+#noteInput {
+    width: 90%;
+    height: 100px; /* Height of the text area */
+    padding: 10px;
+    border: 1px solid #86C392; /* Match border color with the theme */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 10px;
+    font-size: 16px; /* Consistent font size */
+    font-family: 'Roboto', sans-serif; /* Consistent font */
+}
+
+/* PDF input styles */
+input[type="file"] {
+    display: none; /* Hide the default file input */
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #86C392; /* Match button color with the theme */
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Space between input fields */
+    transition: background-color 0.3s;
+    font-family: 'Roboto', sans-serif; /* Consistent font */
+    font-size: 16px; /* Consistent font size */
+}
+
+.custom-file-upload:hover {
+    background-color: #74b88a; /* Darker shade on hover */
+}
+
+/* Button styles */
+#shareNoteButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #86C392; /* Match button color with the theme */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-family: 'Roboto', sans-serif; /* Consistent font */
+}
+
+#shareNoteButton:hover {
+    background-color: #74b88a; /* Darker shade on hover */
+}
+
+/* PDF status styles */
+#pdfStatus {
+    display: block; /* Make it a block element */
+    margin-bottom: 10px; /* Space below the status */
+    font-size: 14px; /* Font size for the status */
+    color: #333; /* Darker color for the status */
+}
+
+/* Shared notes display styles */
+#notesDisplay {
+    border: 1px solid #e0e0e0; /* Light border for notes display */
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 350px; /* Limit height of notes display */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+.note {
+    background-color: #f9f9f9; /* Light background for notes */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border-left: 5px solid #86C392; /* Left border for notes */
+}
+
+/* Checkbox styles */
+input[type="checkbox"] {
+    accent-color: #86C392; /* Change checkbox color to match theme */
+}
+
+
+.file-upload-container {
+    display: flex;
+    align-items: center; /* Vertically center content */
+    justify-content: flex-start; /* Align items to the left */
+}
+
+#pdfStatus {
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 2px; /* Add space between button and status */
+}
+.custom-file-upload {
+    margin-right: 10px; /* Space between file upload and button */
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+#shareNoteButton {
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+
+.semester-selection {
+    margin-bottom: 20px; /* Space below the section */
+    margin-top: 100px; /* Add top margin to push it down */
+}

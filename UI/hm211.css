@@ -1,0 +1,215 @@
+body {
+    font-family: sans-serif;
+    background-color:#E4D1BD;
+    color: #86C392;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #86C392;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.nav-left {
+    display: flex;
+}
+
+.nav-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-right li {
+    margin: 0 15px;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-right a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+    display: block; /* Make sure the h1 is visible */
+    margin: 0; /* remove default margin */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+nav li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav a {
+    color: white;
+    /* Links in header should be white */
+    text-decoration: none;
+}
+
+.plus-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #86C392;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 2em;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.uploads {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.uploads button {
+    display: block;
+    /* Make each button a block element */
+    width: auto;
+    padding: 10px 15px;
+    /* Increased padding */
+    margin: 5px 0;
+    /* Vertical margin only */
+    border: none;
+    background-color: #f8f8f8;
+    /* Light gray background for buttons */
+    cursor: pointer;
+    color: #86C392;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    /* More rounded corners */
+    transition: background-color 0.3s;
+    text-align: center;
+    /* Align text to the left */
+}
+
+.uploads button:hover {
+    background-color: #e0e0e0;
+}
+
+/* New styles for the text files list */
+#text-files-container {
+    display: flex;
+    flex-direction: column; /* List filenames vertically */
+    gap: 10px; /* Space between items */
+    margin: 20px;
+    width: 100%;
+    max-width: 600px; /* Limit width for better readability */
+}
+
+.file-block {
+    background-color: #E4D1BD;
+    border-radius: 10px;
+    padding: 0px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    width: 150%; /* Ensure it takes full width */
+    margin: 0 auto; /* Center the block */
+}
+
+.file-block:hover {
+    background-color: #E4D1BD;
+}
+
+.file-block h3 {
+    margin: 10px;
+    color: #86C392;
+    font-size: 1.2em;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis for long filenames */
+    width: auto;
+    background-color: white;
+}
+
+.text-content-container {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-content-container p {
+    margin: 10px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.instruction-text {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    color: #86C392;
+    font-size: 0.9em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.instruction-text.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.processing-message {
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Ensure exact centering */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px 30px; /* Larger padding */
+    border-radius: 10px; /* Rounded corners */
+    color: #86C392;
+    font-size: 1.2em; /* Larger font size */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+    display: none; /* Initially hidden */
+    transition: opacity 0.3s ease;
+    z-index: 1000; /* Ensure it appears above other elements */
+    text-align: center; /* Center the text */
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Timetable</title>
+    <link rel="stylesheet" href="./timetable.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <img src="./mascot3.png" alt="mascot" style="height: 50px; width: 50 px; margin-right: 5px;">
+                <h1 style="align-self: center;">FocusFlow</h1>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="./dash.html">Dashboard</a></li>
+                    <li><a href="./timetable.html">Schedule</a></li>
+                    <li><a href="./timer.html">Timer</a></li>
+                    <li><a href="./notes.html">Notes</a></li>
+                    <li><a href="./course.html">Courses</a></li>
+                    <li><a href="./account.html">Account</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 style="text-align: center;">Class Timetable</h1>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="openAddClassModal()">➕ Add Class</button>
+            <button onclick="openRemoveClassModal()">➖ Remove Class</button>
+        </div>
+
+        <!-- Date Selection -->
+        <div class="date-selector">
+            <select id="monthSelect" class="dropdown" onchange="generateCalendar()"></select>
+            <select id="yearSelect" class="dropdown" onchange="generateCalendar()"></select>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="calendar-grid" id="calendar"></div>
+
+        <!-- Class Legend -->
+        <div class="legend">
+            <div class="legend-item math">Mathematics</div>
+            <div class="legend-item physics">Physics</div>
+            <div class="legend-item chem">Chemistry</div>
+        </div>
+
+        <!-- Add Class Modal -->
+        <div id="addClassModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('addClassModal')">&times;</span>
+                <h2>Add Class</h2>
+                <div class="form-group">
+                    <label for="classType">Subject:</label>
+                    <select id="classType">
+                        <option value="math">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chem">Chemistry</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="classTime">Time:</label>
+                    <input type="time" id="classTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Frequency:</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="addFrequency" value="once" checked>
+                            One Time
+                        </label>
+                        <label>
+                            <input type="radio" name="addFrequency" value="weekly">
+                            Every Week
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="classDate">Date:</label>
+                    <input type="date" id="classDate" required>
+                </div>
+                <button class="submit-btn" onclick="addClass()">Add Class</button>
+            </div>
+        </div>
+
+        <!-- Remove Class Modal -->
+        <div id="removeClassModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('removeClassModal')">&times;</span>
+                <h2>Remove Class</h2>
+                <div class="form-group">
+                    <label for="removeClassType">Subject:</label>
+                    <select id="removeClassType">
+                        <option value="math">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chem">Chemistry</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="removeClassDate">Date:</label>
+                    <input type="date" id="removeClassDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Frequency:</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="removeFrequency" value="once" checked>
+                            This Instance Only
+                        </label>
+                        <label>
+                            <input type="radio" name="removeFrequency" value="weekly">
+                            All Future Instances
+                        </label>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="removeClass()">Remove Class</button>
+            </div>
+        </div>
+    </div>
+    <img src="./mascot.png" alt="mascot"
+        style="height: 100px; width: 50 px;position: fixed; bottom: 20px; right: 20px;">
+    <script src="timetable.js"></script>
+</body>
+
+</html>
